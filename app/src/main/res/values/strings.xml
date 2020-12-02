@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">NotHut</string>
+    <string name="header_nothut">NotHut</string>
+    <string name="txt_search_your_notes">Search notes</string>
+    <string name="search_icon">Search Icon</string>
+    <string name="add_note_icon">Add Note Icon</string>
+    <string name="add_image_icon">Add Image Icon</string>
+    <string name="add_url_icon">Add URL Icon</string>
+    <string name="back_button">Back Button</string>
+    <string name="done_button">Done Button</string>
+    <string name="subtitle">Subtitle</string>
+    <string name="type_note_here">Type note here...</string>
 </resources>
