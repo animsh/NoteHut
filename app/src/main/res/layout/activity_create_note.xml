@@ -33,6 +33,7 @@
                 app:tint="@color/colorIcons" />
 
             <ImageView
+                android:id="@+id/image_save"
                 android:layout_width="@dimen/_16sdp"
                 android:layout_height="@dimen/_16sdp"
                 android:layout_marginEnd="@dimen/_12sdp"
@@ -82,7 +83,6 @@
                 android:layout_marginEnd="@dimen/_12sdp"
                 android:background="@null"
                 android:hint="@string/subtitle"
-                android:textStyle="bold"
                 android:importantForAutofill="no"
                 android:inputType="textMultiLine"
                 android:paddingTop="@dimen/_8sdp"
@@ -90,6 +90,7 @@
                 android:textColor="@color/colorNoteSubtitleText"
                 android:textColorHint="@color/colorTextHint"
                 android:textSize="@dimen/_13ssp"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/view_subtitle_indicator"
                 app:layout_constraintTop_toBottomOf="@id/text_data_and_time" />
