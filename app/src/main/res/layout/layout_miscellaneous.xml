@@ -139,7 +139,7 @@
 
 
     </LinearLayout>
-    
+
     <LinearLayout
         android:id="@+id/layout_add_image"
         android:layout_width="match_parent"
@@ -148,23 +148,51 @@
         android:gravity="center_vertical"
         android:orientation="horizontal"
         tools:ignore="UseCompoundDrawables">
-        
+
         <ImageView
-            android:layout_width="@dimen/_22sdp"
-            android:layout_height="@dimen/_22sdp"
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
             android:contentDescription="@string/add_image_icon"
             android:src="@drawable/ic_photo_add"
             app:tint="@color/colorIcons" />
-        
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_10sdp"
-            android:textStyle="normal"
             android:text="Add Image"
             android:textColor="@color/colorIcons"
-            android:textSize="@dimen/_12sdp"/>
+            android:textSize="@dimen/_12sdp"
+            android:textStyle="normal" />
 
     </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_add_url"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_35sdp"
+        android:layout_margin="@dimen/_10sdp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        tools:ignore="UseCompoundDrawables">
+
+        <ImageView
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:contentDescription="@string/add_image_icon"
+            android:src="@drawable/ic_globe"
+            app:tint="@color/colorIcons" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:text="Add URL"
+            android:textColor="@color/colorIcons"
+            android:textSize="@dimen/_12sdp"
+            android:textStyle="normal" />
+
+    </LinearLayout>
+
 
 </LinearLayout>

@@ -117,6 +117,27 @@
                 android:visibility="gone"
                 app:layout_constraintTop_toBottomOf="@+id/input_note_subtitle" />
 
+            <LinearLayout
+                android:id="@+id/layout_web_url"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_12sdp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_marginEnd="@dimen/_12sdp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@+id/image_note">
+
+                <TextView
+                    android:id="@+id/text_web_url"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:autoLink="web"
+                    android:textSize="@dimen/_13ssp" />
+            </LinearLayout>
+
             <EditText
                 android:id="@+id/input_note"
                 android:layout_width="match_parent"
@@ -135,7 +156,7 @@
                 android:textColorHint="@color/colorTextHint"
                 android:textSize="@dimen/_13ssp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/image_note" />
+                app:layout_constraintTop_toBottomOf="@id/layout_web_url" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 

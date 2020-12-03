@@ -28,7 +28,7 @@
         android:top="@dimen/_6sdp">
 
         <shape android:shape="oval">
-            <solid android:color="@color/colorNoteColor4"/>
+            <solid android:color="@color/colorNoteColor4" />
         </shape>
 
     </item>

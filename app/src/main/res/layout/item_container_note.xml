@@ -17,7 +17,7 @@
         android:visibility="gone"
         app:riv_corner_radius_top_left="@dimen/_10sdp"
         app:riv_corner_radius_top_right="@dimen/_10sdp" />
-    
+
     <TextView
         android:id="@+id/text_title"
         android:layout_width="match_parent"
