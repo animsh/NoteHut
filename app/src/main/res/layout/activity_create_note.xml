@@ -117,6 +117,23 @@
                 android:visibility="gone"
                 app:layout_constraintTop_toBottomOf="@+id/input_note_subtitle" />
 
+
+            <ImageView
+                android:id="@+id/image_remove_image"
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:background="@drawable/background_delete"
+                android:contentDescription="@string/delete_image"
+                android:padding="@dimen/_5sdp"
+                android:src="@drawable/ic_delete"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="@id/image_note"
+                app:layout_constraintTop_toTopOf="@id/image_note"
+                app:tint="@color/colorTextColor" />
+
+
             <LinearLayout
                 android:id="@+id/layout_web_url"
                 android:layout_width="match_parent"
@@ -127,7 +144,8 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:visibility="gone"
-                app:layout_constraintTop_toBottomOf="@+id/image_note">
+                app:layout_constraintTop_toBottomOf="@+id/image_note"
+                tools:ignore="UseCompoundDrawables">
 
                 <TextView
                     android:id="@+id/text_web_url"
@@ -136,6 +154,16 @@
                     android:layout_weight="1"
                     android:autoLink="web"
                     android:textSize="@dimen/_13ssp" />
+
+                <ImageView
+                    android:id="@+id/image_remove_web_url"
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:padding="@dimen/_5sdp"
+                    android:background="@drawable/background_delete"
+                    android:contentDescription="@string/delete_url"
+                    android:src="@drawable/ic_delete"
+                    app:tint="@color/colorTextColor" />
             </LinearLayout>
 
             <EditText

@@ -14,4 +14,6 @@
     <string name="default_color">Default Color</string>
     <string name="pick_color">Pick Color</string>
     <string name="image">Image</string>
+    <string name="delete_url">Delete URL</string>
+    <string name="delete_image">Delete Image</string>
 </resources>
