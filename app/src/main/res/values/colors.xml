@@ -11,9 +11,9 @@
     <color name="colorQuickActionBackground">#1F1F1F</color>
     <color name="colorIcons">#A4A4A4</color>
     <color name="colorTextSubtitle">#CECECE</color>
-    <color name="colorDefaultNoteColor">#333333</color>
+    <color name="colorDefaultNoteColor">#1F1F1F</color>
     <color name="colorNoteSubtitleText">#FAFAFA</color>
-    <color name="colorMiscellaneousBackground">#F1F1F1</color>
+    <color name="colorMiscellaneousBackground">#191919</color>
     <color name="colorNoteColor2">#FDBE3B</color>
     <color name="colorNoteColor3">#FF4842</color>
     <color name="colorNoteColor4">#4285F4</color>
