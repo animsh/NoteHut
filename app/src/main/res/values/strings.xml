@@ -13,4 +13,5 @@
     <string name="miscellaneous">Miscellaneous</string>
     <string name="default_color">Default Color</string>
     <string name="pick_color">Pick Color</string>
+    <string name="image">Image</string>
 </resources>

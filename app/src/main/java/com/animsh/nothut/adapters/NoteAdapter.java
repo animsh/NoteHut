@@ -1,5 +1,6 @@
 package com.animsh.nothut.adapters;
 
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.animsh.nothut.R;
 import com.animsh.nothut.entities.Note;
+import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.util.List;
 
@@ -54,6 +56,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
     static class NoteViewHolder extends RecyclerView.ViewHolder {
         TextView textTitle, textSubtitle, textDateTime;
         LinearLayout layoutNote;
+        RoundedImageView imageNote;
 
         public NoteViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -61,6 +64,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
             textSubtitle = itemView.findViewById(R.id.text_subtitle);
             textDateTime = itemView.findViewById(R.id.text_date_time);
             layoutNote = itemView.findViewById(R.id.layout_note);
+            imageNote = itemView.findViewById(R.id.image_note);
         }
 
         void setNote(Note note) {
@@ -68,6 +72,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
             if (note.getSubtitle().trim().isEmpty()) {
                 textSubtitle.setVisibility(View.GONE);
             } else {
+                textSubtitle.setVisibility(View.VISIBLE);
                 textSubtitle.setText(note.getSubtitle());
             }
             textDateTime.setText(note.getDateTime());
@@ -77,6 +82,13 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
                 gradientDrawable.setColor(Color.parseColor(note.getColor()));
             } else {
                 gradientDrawable.setColor(Color.parseColor("#1F1F1F"));
+            }
+
+            if (note.getImagePath() != null) {
+                imageNote.setImageBitmap(BitmapFactory.decodeFile(note.getImagePath()));
+                imageNote.setVisibility(View.VISIBLE);
+            } else {
+                imageNote.setVisibility(View.GONE);
             }
         }
     }
