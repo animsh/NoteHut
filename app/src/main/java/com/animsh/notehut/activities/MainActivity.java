@@ -1,4 +1,4 @@
-package com.animsh.nothut.activities;
+package com.animsh.notehut.activities;
 
 import android.Manifest;
 import android.content.Intent;
@@ -29,11 +29,11 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
-import com.animsh.nothut.R;
-import com.animsh.nothut.adapters.NoteAdapter;
-import com.animsh.nothut.database.NotesDatabase;
-import com.animsh.nothut.entities.Note;
-import com.animsh.nothut.listeners.NoteListeners;
+import com.animsh.notehut.R;
+import com.animsh.notehut.adapters.NoteAdapter;
+import com.animsh.notehut.database.NotesDatabase;
+import com.animsh.notehut.entities.Note;
+import com.animsh.notehut.listeners.NoteListeners;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity implements NoteListeners {
             @Override
             public void afterTextChanged(Editable editable) {
                 if (noteList.size() != 0) {
-                    noteAdapter.searchNotes(editable.toString());
+                    noteAdapter.searchNotes(editable.toString().trim());
                 }
             }
         });

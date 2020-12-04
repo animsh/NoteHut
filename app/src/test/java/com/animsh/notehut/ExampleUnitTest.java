@@ -1,4 +1,4 @@
-package com.animsh.nothut;
+package com.animsh.notehut;
 
 import org.junit.Test;
 

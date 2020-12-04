@@ -1,4 +1,4 @@
-package com.animsh.nothut;
+package com.animsh.notehut;
 
 import android.content.Context;
 
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
     public void useAppContext() {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        assertEquals("com.animsh.nothut", appContext.getPackageName());
+        assertEquals("com.animsh.notehut", appContext.getPackageName());
     }
 }

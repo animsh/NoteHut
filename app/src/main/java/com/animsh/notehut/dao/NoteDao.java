@@ -1,4 +1,4 @@
-package com.animsh.nothut.dao;
+package com.animsh.notehut.dao;
 
 import androidx.room.Dao;
 import androidx.room.Delete;
@@ -6,7 +6,7 @@ import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
-import com.animsh.nothut.entities.Note;
+import com.animsh.notehut.entities.Note;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.animsh.nothut.entities;
+package com.animsh.notehut.entities;
 
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;

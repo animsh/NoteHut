@@ -1,4 +1,4 @@
-package com.animsh.nothut.activities;
+package com.animsh.notehut.activities;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -31,9 +31,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import com.animsh.nothut.R;
-import com.animsh.nothut.database.NotesDatabase;
-import com.animsh.nothut.entities.Note;
+import com.animsh.notehut.R;
+import com.animsh.notehut.database.NotesDatabase;
+import com.animsh.notehut.entities.Note;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
 import java.io.InputStream;

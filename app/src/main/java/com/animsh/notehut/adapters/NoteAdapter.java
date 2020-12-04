@@ -1,4 +1,4 @@
-package com.animsh.nothut.adapters;
+package com.animsh.notehut.adapters;
 
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -14,9 +14,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.animsh.nothut.R;
-import com.animsh.nothut.entities.Note;
-import com.animsh.nothut.listeners.NoteListeners;
+import com.animsh.notehut.R;
+import com.animsh.notehut.entities.Note;
+import com.animsh.notehut.listeners.NoteListeners;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.util.ArrayList;

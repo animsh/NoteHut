@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.animsh.nothut">
+    package="com.animsh.notehut">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
@@ -15,11 +15,11 @@
         android:theme="@style/AppTheme"
         tools:targetApi="q">
         <activity
-            android:name=".activities.CreateNoteActivity"
+            android:name="com.animsh.notehut.activities.CreateNoteActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".activities.MainActivity"
+            android:name="com.animsh.notehut.activities.MainActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden">
             <intent-filter>

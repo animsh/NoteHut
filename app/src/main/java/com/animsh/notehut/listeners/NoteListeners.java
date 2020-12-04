@@ -1,6 +1,6 @@
-package com.animsh.nothut.listeners;
+package com.animsh.notehut.listeners;
 
-import com.animsh.nothut.entities.Note;
+import com.animsh.notehut.entities.Note;
 
 public interface NoteListeners {
     void onNoteClicked(Note note, int position);
