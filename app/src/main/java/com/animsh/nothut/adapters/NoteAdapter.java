@@ -3,6 +3,8 @@ package com.animsh.nothut.adapters;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,16 +19,22 @@ import com.animsh.nothut.entities.Note;
 import com.animsh.nothut.listeners.NoteListeners;
 import com.makeramen.roundedimageview.RoundedImageView;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder> {
 
     private List<Note> notes;
     private NoteListeners noteListeners;
+    private Timer timer;
+    private List<Note> notesSources;
 
     public NoteAdapter(List<Note> notes, NoteListeners noteListeners) {
         this.notes = notes;
         this.noteListeners = noteListeners;
+        notesSources = notes;
     }
 
     @NonNull
@@ -60,6 +68,40 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
     @Override
     public int getItemViewType(int position) {
         return position;
+    }
+
+    public void searchNotes(final String searchKeyword) {
+        timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                if (searchKeyword.trim().isEmpty()) {
+                    notes = notesSources;
+                } else {
+                    ArrayList<Note> temp = new ArrayList<>();
+                    for (Note note : notesSources) {
+                        if (note.getTitle().toLowerCase().contains(searchKeyword.toLowerCase())
+                                || note.getSubtitle().toLowerCase().contains(searchKeyword.toLowerCase())
+                                || note.getNoteText().toLowerCase().contains(searchKeyword.toLowerCase())) {
+                            temp.add(note);
+                        }
+                    }
+                    notes = temp;
+                }
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        notifyDataSetChanged();
+                    }
+                });
+            }
+        }, 500);
+    }
+
+    public void cancelTimer() {
+        if (timer != null) {
+            timer.cancel();
+        }
     }
 
     static class NoteViewHolder extends RecyclerView.ViewHolder {
