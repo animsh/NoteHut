@@ -159,9 +159,9 @@
                     android:id="@+id/image_remove_web_url"
                     android:layout_width="@dimen/_20sdp"
                     android:layout_height="@dimen/_20sdp"
-                    android:padding="@dimen/_5sdp"
                     android:background="@drawable/background_delete"
                     android:contentDescription="@string/delete_url"
+                    android:padding="@dimen/_5sdp"
                     android:src="@drawable/ic_delete"
                     app:tint="@color/colorTextColor" />
             </LinearLayout>
