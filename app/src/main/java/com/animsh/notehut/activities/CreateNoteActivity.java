@@ -34,11 +34,14 @@ import androidx.core.content.ContextCompat;
 import com.animsh.notehut.R;
 import com.animsh.notehut.database.NotesDatabase;
 import com.animsh.notehut.entities.Note;
+import com.animsh.notehut.entities.TODO;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class CreateNoteActivity extends AppCompatActivity {
@@ -174,6 +177,9 @@ public class CreateNoteActivity extends AppCompatActivity {
         note.setDateTime(textDataTime.getText().toString());
         note.setColor(selectedNoteColor);
         note.setImagePath(selectedImagePath);
+        List<TODO> todos = new ArrayList<>();
+        todos.add(new TODO(true, "Task"));
+        note.setTodoList(todos);
 
         if (layoutWebURL.getVisibility() == View.VISIBLE) {
             note.setWebLink(textWebUrl.getText().toString());

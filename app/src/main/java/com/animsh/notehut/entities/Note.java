@@ -4,8 +4,12 @@ import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
+
+import com.animsh.notehut.converters.TODOTypeConverters;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Entity(tableName = "notes")
 public class Note implements Serializable {
@@ -33,6 +37,18 @@ public class Note implements Serializable {
 
     @ColumnInfo(name = "web_link")
     private String webLink;
+
+    @TypeConverters(TODOTypeConverters.class)
+    @ColumnInfo(name = "todoList")
+    private List<TODO> todoList;
+
+    public List<TODO> getTodoList() {
+        return todoList;
+    }
+
+    public void setTodoList(List<TODO> todoList) {
+        this.todoList = todoList;
+    }
 
     public int getId() {
         return id;
@@ -101,6 +117,6 @@ public class Note implements Serializable {
     @NonNull
     @Override
     public String toString() {
-        return title + " : " + dateTime;
+        return title + " : " + dateTime + todoList.get(0).getTaskName();
     }
 }

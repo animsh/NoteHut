@@ -55,4 +55,8 @@ dependencies {
     // Rounded Image View
     compile 'com.makeramen:roundedimageview:2.3.0'
 
+    // GSON
+    implementation 'com.google.code.gson:gson:2.8.6'
+
+
 }

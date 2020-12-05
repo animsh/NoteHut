@@ -97,7 +97,7 @@
             android:layout_height="@dimen/_22sdp"
             android:layout_marginStart="@dimen/_15sdp"
             android:contentDescription="@string/add_image_icon"
-            android:src="@drawable/ic_photo_add"
+            android:src="@drawable/ic_add_photo"
             app:tint="@color/colorIcons" />
 
         <ImageView
@@ -106,7 +106,16 @@
             android:layout_height="@dimen/_22sdp"
             android:layout_marginStart="@dimen/_15sdp"
             android:contentDescription="@string/add_url_icon"
-            android:src="@drawable/ic_globe"
+            android:src="@drawable/ic_url"
+            app:tint="@color/colorIcons" />
+
+        <ImageView
+            android:id="@+id/image_add_checklist"
+            android:layout_width="@dimen/_22sdp"
+            android:layout_height="@dimen/_22sdp"
+            android:layout_marginStart="@dimen/_15sdp"
+            android:contentDescription="@string/add_url_icon"
+            android:src="@drawable/ic_checklist"
             app:tint="@color/colorIcons" />
     </LinearLayout>
 
@@ -117,7 +126,6 @@
         android:layout_marginEnd="@dimen/_15sdp"
         android:background="@drawable/background_add_button"
         android:contentDescription="@string/add_note_icon"
-        android:padding="@dimen/_5sdp"
         android:src="@drawable/ic_round_add"
         android:tint="@color/colorPrimary"
         app:layout_constraintBottom_toTopOf="@+id/layout_quick_action"
