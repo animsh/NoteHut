@@ -112,7 +112,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
     }
 
     static class NoteViewHolder extends RecyclerView.ViewHolder {
-        TextView textTitle, textSubtitle, textDateTime;
+        TextView textTitle, textSubtitle, textDate, textLabel, textNote;
         LinearLayout layoutNote;
         RoundedImageView imageNote;
         RecyclerView todoRecyclerView;
@@ -121,10 +121,12 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
             super(itemView);
             textTitle = itemView.findViewById(R.id.text_title);
             textSubtitle = itemView.findViewById(R.id.text_subtitle);
-            textDateTime = itemView.findViewById(R.id.text_date_time);
+            textDate = itemView.findViewById(R.id.text_date);
+            textNote = itemView.findViewById(R.id.text_note);
             layoutNote = itemView.findViewById(R.id.layout_note);
             imageNote = itemView.findViewById(R.id.image_note);
             todoRecyclerView = itemView.findViewById(R.id.todo_recyclerview);
+            textLabel = itemView.findViewById(R.id.text_label);
         }
 
         void setNote(Note note, Context context) {
@@ -135,22 +137,42 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
                 textSubtitle.setVisibility(View.VISIBLE);
                 textSubtitle.setText(note.getSubtitle());
             }
-            textDateTime.setText(note.getDateTime());
+            if (note.getNoteText().trim().isEmpty()) {
+                textNote.setVisibility(View.GONE);
+            } else {
+                if (textSubtitle.getText().toString().isEmpty()) {
+                    textNote.setVisibility(View.VISIBLE);
+                    textNote.setText(note.getNoteText());
+                } else if (textSubtitle.getText().toString().trim().length() < 30) {
+                    textNote.setVisibility(View.VISIBLE);
+                    textNote.setText(note.getNoteText());
+                } else {
+                    textNote.setVisibility(View.GONE);
+                }
+            }
+            textDate.setText(note.getDate());
 
             GradientDrawable gradientDrawable = (GradientDrawable) layoutNote.getBackground();
             if (note.getColor() != null) {
                 backgroundColor = note.getColor();
                 gradientDrawable.setColor(Color.parseColor(note.getColor()));
+                GradientDrawable drawable = (GradientDrawable) textLabel.getBackground();
                 if (note.getColor().equals("#FDBE3B") ||
                         note.getColor().equals("#FF4842") ||
                         note.getColor().equals("#4285F4")) {
                     textTitle.setTextColor(Color.parseColor("#000000"));
                     textSubtitle.setTextColor(Color.parseColor("#000000"));
-                    textDateTime.setTextColor(Color.parseColor("#000000"));
+                    textNote.setTextColor(Color.parseColor("#000000"));
+                    textDate.setTextColor(Color.parseColor("#000000"));
+                    textLabel.setTextColor(context.getResources().getColor(R.color.colorBlack));
+                    drawable.setStroke(1, context.getResources().getColor(R.color.colorBlack)); // set stroke width and stroke color
                 } else {
                     textTitle.setTextColor(Color.parseColor("#ffffff"));
                     textSubtitle.setTextColor(Color.parseColor("#ffffff"));
-                    textDateTime.setTextColor(Color.parseColor("#ffffff"));
+                    textNote.setTextColor(Color.parseColor("#969696"));
+                    textDate.setTextColor(Color.parseColor("#969696"));
+                    textLabel.setTextColor(context.getResources().getColor(R.color.colorText3));
+                    drawable.setStroke(1, context.getResources().getColor(R.color.colorText3)); // set stroke width and stroke color
                 }
             } else {
                 backgroundColor = "#1F1F1F";
@@ -171,6 +193,14 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
                 todoRecyclerView.setAdapter(todoAdapter);
                 todoRecyclerView.setVisibility(View.VISIBLE);
                 todoAdapter.notifyDataSetChanged();
+            }
+
+            if (note.getTodoList() != null && !note.getNoteText().equals("")) {
+                textLabel.setText("Notes");
+            } else if (note.getTodoList() != null && note.getNoteText().equals("")) {
+                textLabel.setText("Task List");
+            } else if (note.getTodoList() == null && !note.getNoteText().equals("")) {
+                textLabel.setText("Notes");
             }
         }
     }

@@ -135,23 +135,25 @@ public class TODOAdapter extends RecyclerView.Adapter<TODOAdapter.TODOViewHolder
                     holder.todoTitle.setPaintFlags(holder.todoTitle.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
                     todoList.get(position).setChecked(false);
                 }
-                note.setTodoList(todoList);
-                @SuppressLint("StaticFieldLeak")
-                class SaveNoteTask extends AsyncTask<Void, Void, Void> {
+                if (note != null) {
+                    note.setTodoList(todoList);
+                    @SuppressLint("StaticFieldLeak")
+                    class SaveNoteTask extends AsyncTask<Void, Void, Void> {
 
-                    @Override
-                    protected Void doInBackground(Void... voids) {
-                        NotesDatabase.getDatabase(context).noteDao().insertNote(note);
-                        return null;
+                        @Override
+                        protected Void doInBackground(Void... voids) {
+                            NotesDatabase.getDatabase(context).noteDao().insertNote(note);
+                            return null;
+                        }
+
+                        @Override
+                        protected void onPostExecute(Void aVoid) {
+                            super.onPostExecute(aVoid);
+                        }
                     }
 
-                    @Override
-                    protected void onPostExecute(Void aVoid) {
-                        super.onPostExecute(aVoid);
-                    }
+                    new SaveNoteTask().execute();
                 }
-
-                new SaveNoteTask().execute();
             }
         });
 

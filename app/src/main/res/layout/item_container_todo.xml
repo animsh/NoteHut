@@ -6,7 +6,10 @@
     android:layout_height="wrap_content"
     android:gravity="center"
     android:orientation="horizontal"
-    android:padding="@dimen/_10sdp">
+    android:paddingStart="@dimen/_10sdp"
+    android:paddingTop="@dimen/_5sdp"
+    android:paddingEnd="@dimen/_5sdp"
+    android:paddingBottom="@dimen/_5sdp">
 
     <com.animsh.notehut.customlayouts.CustomCheckBox
         android:id="@+id/todo_checkbox"
@@ -24,6 +27,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/_5sdp"
+        android:singleLine="true"
         android:text="Task"
         android:textColor="@color/colorTextColor"
         android:textSize="@dimen/_14ssp" />

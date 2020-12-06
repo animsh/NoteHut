@@ -54,7 +54,7 @@ public class CreateNoteActivity extends AppCompatActivity {
     public static String selectedNoteColor;
     public static TODOAdapter todoAdapter;
     private EditText inputNoteTitle, inputNoteSubtitle, inputNoteText;
-    private TextView textDataTime;
+    private TextView textDate, textTime;
     private View subtitleIndicator;
     private String selectedImagePath;
     private ImageView imageNote;
@@ -83,7 +83,8 @@ public class CreateNoteActivity extends AppCompatActivity {
         inputNoteTitle = findViewById(R.id.input_note_title);
         inputNoteSubtitle = findViewById(R.id.input_note_subtitle);
         inputNoteText = findViewById(R.id.input_note);
-        textDataTime = findViewById(R.id.text_data_and_time);
+        textDate = findViewById(R.id.text_date);
+        textTime = findViewById(R.id.text_time);
         subtitleIndicator = findViewById(R.id.view_subtitle_indicator);
         imageNote = findViewById(R.id.image_note);
         textWebUrl = findViewById(R.id.text_web_url);
@@ -91,11 +92,14 @@ public class CreateNoteActivity extends AppCompatActivity {
         todoRecyclerView = (RecyclerView) findViewById(R.id.todo_recyclerview);
 
 
-        textDataTime.setText(
-                new SimpleDateFormat("EEE, MMM d, ''yy 'at' h:mm a", Locale.getDefault())
+        textDate.setText(
+                new SimpleDateFormat("EEE, MMM d, ''yy", Locale.getDefault())
                         .format(new Date())
         );
-
+        textTime.setText(
+                new SimpleDateFormat(" 'at' h:mm a", Locale.getDefault())
+                        .format(new Date())
+        );
         ImageView imageSave = findViewById(R.id.image_save);
         imageSave.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -152,7 +156,8 @@ public class CreateNoteActivity extends AppCompatActivity {
         inputNoteTitle.setText(alreadyAvailableNote.getTitle());
         inputNoteSubtitle.setText(alreadyAvailableNote.getSubtitle());
         inputNoteText.setText(alreadyAvailableNote.getNoteText());
-        textDataTime.setText(alreadyAvailableNote.getDateTime());
+        textDate.setText(alreadyAvailableNote.getDate());
+        textTime.setText(alreadyAvailableNote.getTime());
         if (alreadyAvailableNote.getImagePath() != null && !alreadyAvailableNote.getImagePath().trim().isEmpty()) {
             imageNote.setImageBitmap(BitmapFactory.decodeFile(alreadyAvailableNote.getImagePath()));
             imageNote.setVisibility(View.VISIBLE);
@@ -181,16 +186,17 @@ public class CreateNoteActivity extends AppCompatActivity {
         } /*else if (inputNoteSubtitle.getText().toString().trim().isEmpty()) {
             Toast.makeText(CreateNoteActivity.this, "Note ub title can't be empty", Toast.LENGTH_SHORT).show();
             return;
-        }*/ else if (inputNoteText.getText().toString().trim().isEmpty()) {
+        } else if (inputNoteText.getText().toString().trim().isEmpty()) {
             Toast.makeText(CreateNoteActivity.this, "Note can't be empty", Toast.LENGTH_SHORT).show();
             return;
-        }
+        } */
 
         final Note note = new Note();
         note.setTitle(inputNoteTitle.getText().toString());
         note.setSubtitle(inputNoteSubtitle.getText().toString());
         note.setNoteText(inputNoteText.getText().toString());
-        note.setDateTime(textDataTime.getText().toString());
+        note.setDate(textDate.getText().toString());
+        note.setTime(textTime.getText().toString());
         note.setColor(selectedNoteColor);
         note.setImagePath(selectedImagePath);
         if (todoList != null) {

@@ -20,8 +20,11 @@ public class Note implements Serializable {
     @ColumnInfo(name = "title")
     private String title;
 
-    @ColumnInfo(name = "date_time")
-    private String dateTime;
+    @ColumnInfo(name = "date")
+    private String date;
+
+    @ColumnInfo(name = "time")
+    private String time;
 
     @ColumnInfo(name = "subtitle")
     private String subtitle;
@@ -66,12 +69,20 @@ public class Note implements Serializable {
         this.title = title;
     }
 
-    public String getDateTime() {
-        return dateTime;
+    public String getDate() {
+        return date;
     }
 
-    public void setDateTime(String dateTime) {
-        this.dateTime = dateTime;
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
     }
 
     public String getSubtitle() {
@@ -117,6 +128,6 @@ public class Note implements Serializable {
     @NonNull
     @Override
     public String toString() {
-        return title + " : " + dateTime;
+        return title + " : " + date + time;
     }
 }

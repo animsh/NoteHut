@@ -59,11 +59,21 @@
             android:textSize="@dimen/_13ssp" />
     </LinearLayout>
 
+    <View
+        android:id="@+id/supporterView"
+        android:layout_width="match_parent"
+        android:layout_height="15dp"
+        android:background="@drawable/shadow_inverted"
+        app:layout_anchor="@+id/notes_recyclerview"
+        app:layout_anchorGravity="bottom"
+        app:layout_constraintTop_toTopOf="@+id/notes_recyclerview" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/notes_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginStart="@dimen/_2sdp"
+        android:layout_marginTop="@dimen/_5sdp"
         android:layout_marginEnd="@dimen/_2sdp"
         android:clipToPadding="false"
         android:paddingStart="0dp"
@@ -71,6 +81,15 @@
         android:paddingBottom="@dimen/_12sdp"
         app:layout_constraintBottom_toTopOf="@id/layout_quick_action"
         app:layout_constraintTop_toBottomOf="@id/search_layout" />
+
+    <View
+        android:id="@+id/supporterView2"
+        android:layout_width="match_parent"
+        android:layout_height="15dp"
+        android:background="@drawable/shadow"
+        app:layout_anchor="@+id/notes_recyclerview"
+        app:layout_anchorGravity="bottom"
+        app:layout_constraintBottom_toBottomOf="@+id/notes_recyclerview" />
 
     <LinearLayout
         android:id="@+id/layout_quick_action"
