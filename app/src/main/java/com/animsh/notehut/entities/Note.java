@@ -117,6 +117,6 @@ public class Note implements Serializable {
     @NonNull
     @Override
     public String toString() {
-        return title + " : " + dateTime + todoList.get(0).getTaskName();
+        return title + " : " + dateTime;
     }
 }

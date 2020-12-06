@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/background_miscellaneous"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:padding="@dimen/_10sdp"
+        android:text="Checklist Item Menu"
+        android:textColor="@color/colorTextColor"
+        android:textSize="@dimen/_13ssp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/text_delete_checklist_item"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/_10sdp"
+        android:text="Delete Item"
+        android:textColor="@color/colorTextColor"
+        android:textSize="@dimen/_13ssp" />
+
+    <TextView
+        android:id="@+id/text_share_checklist_item"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/_10sdp"
+        android:text="Share Item"
+        android:textColor="@color/colorTextColor"
+        android:textSize="@dimen/_13ssp" />
+
+
+</LinearLayout>

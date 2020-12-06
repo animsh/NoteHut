@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/layout_add_checklist_item_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_margin="@dimen/_10sdp"
+    android:background="@drawable/background_dialog">
+
+    <ImageView
+        android:id="@+id/image_add_todo"
+        android:layout_width="@dimen/_20sdp"
+        android:layout_height="@dimen/_20sdp"
+        android:layout_marginStart="@dimen/_8sdp"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:contentDescription="@string/add_url_icon"
+        android:src="@drawable/ic_checklist"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/colorWhite" />
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_8sdp"
+        android:layout_marginEnd="@dimen/_8sdp"
+        android:text="Add checklist item"
+        android:textColor="@color/colorTextColor"
+        android:textSize="@dimen/_14ssp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/image_add_todo"
+        app:layout_constraintStart_toEndOf="@id/image_add_todo"
+        app:layout_constraintTop_toTopOf="@id/image_add_todo" />
+
+    <EditText
+        android:id="@+id/input_todo"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_35sdp"
+        android:layout_marginStart="@dimen/_8sdp"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:layout_marginEnd="@dimen/_8sdp"
+        android:background="@null"
+        android:gravity="center_vertical"
+        android:hint="Enter item name"
+        android:imeOptions="actionDone"
+        android:importantForAutofill="no"
+        android:inputType="textUri"
+        android:paddingStart="@dimen/_8sdp"
+        android:paddingEnd="@dimen/_8sdp"
+        android:textColor="@color/colorTextColor"
+        android:textColorHint="@color/colorTextHint"
+        android:textSize="@dimen/_13ssp"
+        android:textStyle="normal"
+        app:layout_constraintTop_toBottomOf="@id/image_add_todo" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/text_add_todo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/_8sdp"
+        android:layout_marginBottom="@dimen/_8sdp"
+        android:backgroundTint="@color/colorNoteColor2"
+        android:padding="@dimen/_8sdp"
+        android:text="Add"
+        android:textAllCaps="false"
+        android:textColor="@color/colorBlack"
+        android:textStyle="normal"
+        app:cornerRadius="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/input_todo" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/text_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_8sdp"
+        android:layout_marginBottom="@dimen/_8sdp"
+        android:backgroundTint="@color/colorPrimary"
+        android:padding="@dimen/_8sdp"
+        android:text="Cancel"
+        android:textAllCaps="false"
+        android:textColor="@color/colorWhite"
+        android:textStyle="normal"
+        app:cornerRadius="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/input_todo" />
+</androidx.constraintlayout.widget.ConstraintLayout>

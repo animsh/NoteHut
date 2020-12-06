@@ -22,31 +22,38 @@
         android:id="@+id/text_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/_8sdp"
-        android:layout_marginTop="@dimen/_8sdp"
-        android:layout_marginEnd="@dimen/_8sdp"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginEnd="@dimen/_10sdp"
         android:textColor="@color/colorTextColor"
-        android:textSize="@dimen/_12ssp"
+        android:textSize="@dimen/_15ssp"
         android:textStyle="bold" />
 
     <TextView
         android:id="@+id/text_subtitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/_8sdp"
-        android:layout_marginEnd="@dimen/_8sdp"
-        android:textColor="@color/colorNoteSubtitleText"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_2sdp"
+        android:layout_marginEnd="@dimen/_10sdp"
+        android:textColor="@color/colorText2"
         android:textSize="@dimen/_12ssp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/todo_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/text_date_time"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/_8sdp"
+        android:layout_marginStart="@dimen/_10sdp"
         android:layout_marginTop="@dimen/_2sdp"
-        android:layout_marginEnd="@dimen/_8sdp"
-        android:layout_marginBottom="@dimen/_8sdp"
-        android:textColor="@color/colorNoteSubtitleText"
+        android:layout_marginEnd="@dimen/_10sdp"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:textColor="@color/colorText2"
         android:textSize="@dimen/_7ssp" />
 
 </LinearLayout>

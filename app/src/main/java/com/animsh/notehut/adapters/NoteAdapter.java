@@ -1,5 +1,6 @@
 package com.animsh.notehut.adapters;
 
+import android.content.Context;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
@@ -12,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.animsh.notehut.R;
@@ -26,15 +28,19 @@ import java.util.TimerTask;
 
 public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder> {
 
+    public static String backgroundColor;
+    public static Note note;
     private List<Note> notes;
     private NoteListeners noteListeners;
     private Timer timer;
     private List<Note> notesSources;
+    private Context context;
 
-    public NoteAdapter(List<Note> notes, NoteListeners noteListeners) {
+    public NoteAdapter(List<Note> notes, NoteListeners noteListeners, Context context) {
         this.notes = notes;
         this.noteListeners = noteListeners;
         notesSources = notes;
+        this.context = context;
     }
 
     @NonNull
@@ -51,7 +57,8 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull NoteViewHolder holder, int position) {
-        holder.setNote(notes.get(position));
+        holder.setNote(notes.get(position), context);
+        note = notes.get(position);
         holder.layoutNote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -108,6 +115,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
         TextView textTitle, textSubtitle, textDateTime;
         LinearLayout layoutNote;
         RoundedImageView imageNote;
+        RecyclerView todoRecyclerView;
 
         public NoteViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -116,9 +124,10 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
             textDateTime = itemView.findViewById(R.id.text_date_time);
             layoutNote = itemView.findViewById(R.id.layout_note);
             imageNote = itemView.findViewById(R.id.image_note);
+            todoRecyclerView = itemView.findViewById(R.id.todo_recyclerview);
         }
 
-        void setNote(Note note) {
+        void setNote(Note note, Context context) {
             textTitle.setText(note.getTitle());
             if (note.getSubtitle().trim().isEmpty()) {
                 textSubtitle.setVisibility(View.GONE);
@@ -130,8 +139,21 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
 
             GradientDrawable gradientDrawable = (GradientDrawable) layoutNote.getBackground();
             if (note.getColor() != null) {
+                backgroundColor = note.getColor();
                 gradientDrawable.setColor(Color.parseColor(note.getColor()));
+                if (note.getColor().equals("#FDBE3B") ||
+                        note.getColor().equals("#FF4842") ||
+                        note.getColor().equals("#4285F4")) {
+                    textTitle.setTextColor(Color.parseColor("#000000"));
+                    textSubtitle.setTextColor(Color.parseColor("#000000"));
+                    textDateTime.setTextColor(Color.parseColor("#000000"));
+                } else {
+                    textTitle.setTextColor(Color.parseColor("#ffffff"));
+                    textSubtitle.setTextColor(Color.parseColor("#ffffff"));
+                    textDateTime.setTextColor(Color.parseColor("#ffffff"));
+                }
             } else {
+                backgroundColor = "#1F1F1F";
                 gradientDrawable.setColor(Color.parseColor("#1F1F1F"));
             }
 
@@ -140,6 +162,15 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
                 imageNote.setVisibility(View.VISIBLE);
             } else {
                 imageNote.setVisibility(View.GONE);
+            }
+
+            if (note.getTodoList() != null) {
+                TODOAdapter todoAdapter = new TODOAdapter(note.getTodoList(), context, "main", note);
+                todoRecyclerView.setHasFixedSize(true);
+                todoRecyclerView.setLayoutManager(new LinearLayoutManager(context));
+                todoRecyclerView.setAdapter(todoAdapter);
+                todoRecyclerView.setVisibility(View.VISIBLE);
+                todoAdapter.notifyDataSetChanged();
             }
         }
     }

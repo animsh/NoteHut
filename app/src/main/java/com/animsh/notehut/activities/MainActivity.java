@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements NoteListeners {
         );
 
         noteList = new ArrayList<>();
-        noteAdapter = new NoteAdapter(noteList, this);
+        noteAdapter = new NoteAdapter(noteList, this, this);
         notesRecyclerView.setAdapter(noteAdapter);
         getNotes(REQUEST_CODE_SHOW_NOTES, false);
 

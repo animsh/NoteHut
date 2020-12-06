@@ -9,4 +9,14 @@
         <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
     </style>
 
+    <style name="BottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/BottomSheetStyle</item>
+    </style>
+
+    <style name="BottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@android:color/transparent</item>
+        <item name="behavior_peekHeight">350dp</item>
+        <item name="android:layout_margin">1dp</item>
+    </style>
+
 </resources>

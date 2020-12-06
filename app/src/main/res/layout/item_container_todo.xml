@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/layout_todo"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:padding="@dimen/_10sdp">
+
+    <com.animsh.notehut.customlayouts.CustomCheckBox
+        android:id="@+id/todo_checkbox"
+        android:layout_width="@dimen/_14sdp"
+        android:layout_height="@dimen/_14sdp"
+        android:text=""
+        app:color_checked="@color/colorAccent"
+        app:color_tick="@color/colorPrimary"
+        app:color_unchecked="@color/colorMiscellaneousBackground"
+        app:color_unchecked_stroke="@color/colorBlack"
+        app:small_tick="true" />
+
+    <TextView
+        android:id="@+id/todo_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_5sdp"
+        android:text="Task"
+        android:textColor="@color/colorTextColor"
+        android:textSize="@dimen/_14ssp" />
+</LinearLayout>

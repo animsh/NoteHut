@@ -30,8 +30,11 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.animsh.notehut.R;
+import com.animsh.notehut.adapters.TODOAdapter;
 import com.animsh.notehut.database.NotesDatabase;
 import com.animsh.notehut.entities.Note;
 import com.animsh.notehut.entities.TODO;
@@ -48,18 +51,21 @@ public class CreateNoteActivity extends AppCompatActivity {
 
     private static final int REQUEST_CODE_STORAGE_PERMISSION = 1;
     private static final int REQUEST_CODE_SELECT_IMAGE = 2;
+    public static String selectedNoteColor;
+    public static TODOAdapter todoAdapter;
     private EditText inputNoteTitle, inputNoteSubtitle, inputNoteText;
     private TextView textDataTime;
     private View subtitleIndicator;
-    private String selectedNoteColor;
     private String selectedImagePath;
     private ImageView imageNote;
     private TextView textWebUrl;
     private LinearLayout layoutWebURL;
     private AlertDialog dialogAlertURL;
     private AlertDialog dialogDeleteNote;
-
+    private AlertDialog dialogAddChecklistItem;
+    private RecyclerView todoRecyclerView;
     private Note alreadyAvailableNote;
+    private List<TODO> todoList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +88,8 @@ public class CreateNoteActivity extends AppCompatActivity {
         imageNote = findViewById(R.id.image_note);
         textWebUrl = findViewById(R.id.text_web_url);
         layoutWebURL = findViewById(R.id.layout_web_url);
+        todoRecyclerView = (RecyclerView) findViewById(R.id.todo_recyclerview);
+
 
         textDataTime.setText(
                 new SimpleDateFormat("EEE, MMM d, ''yy 'at' h:mm a", Locale.getDefault())
@@ -156,6 +164,14 @@ public class CreateNoteActivity extends AppCompatActivity {
             textWebUrl.setText(alreadyAvailableNote.getWebLink());
             layoutWebURL.setVisibility(View.VISIBLE);
         }
+
+        if (alreadyAvailableNote.getTodoList() != null) {
+            todoList = alreadyAvailableNote.getTodoList();
+            todoAdapter = new TODOAdapter(todoList, CreateNoteActivity.this, "createNote", alreadyAvailableNote);
+            todoRecyclerView.setHasFixedSize(true);
+            todoRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+            todoRecyclerView.setAdapter(todoAdapter);
+        }
     }
 
     private void saveNote() {
@@ -177,9 +193,11 @@ public class CreateNoteActivity extends AppCompatActivity {
         note.setDateTime(textDataTime.getText().toString());
         note.setColor(selectedNoteColor);
         note.setImagePath(selectedImagePath);
-        List<TODO> todos = new ArrayList<>();
-        todos.add(new TODO(true, "Task"));
-        note.setTodoList(todos);
+        if (todoList != null) {
+            note.setTodoList(todoList);
+        } else {
+            note.setTodoList(null);
+        }
 
         if (layoutWebURL.getVisibility() == View.VISIBLE) {
             note.setWebLink(textWebUrl.getText().toString());
@@ -237,6 +255,9 @@ public class CreateNoteActivity extends AppCompatActivity {
                 imageColor3.setImageResource(0);
                 imageColor4.setImageResource(0);
                 imageColor5.setImageResource(0);
+                if (todoAdapter != null) {
+                    todoAdapter.notifyDataSetChanged();
+                }
                 setSubtitleIndicatorColor();
             }
         });
@@ -250,6 +271,9 @@ public class CreateNoteActivity extends AppCompatActivity {
                 imageColor3.setImageResource(0);
                 imageColor4.setImageResource(0);
                 imageColor5.setImageResource(0);
+                if (todoAdapter != null) {
+                    todoAdapter.notifyDataSetChanged();
+                }
                 setSubtitleIndicatorColor();
             }
         });
@@ -263,6 +287,9 @@ public class CreateNoteActivity extends AppCompatActivity {
                 imageColor3.setImageResource(R.drawable.ic_round_done);
                 imageColor4.setImageResource(0);
                 imageColor5.setImageResource(0);
+                if (todoAdapter != null) {
+                    todoAdapter.notifyDataSetChanged();
+                }
                 setSubtitleIndicatorColor();
             }
         });
@@ -276,6 +303,9 @@ public class CreateNoteActivity extends AppCompatActivity {
                 imageColor3.setImageResource(0);
                 imageColor4.setImageResource(R.drawable.ic_round_done);
                 imageColor5.setImageResource(0);
+                if (todoAdapter != null) {
+                    todoAdapter.notifyDataSetChanged();
+                }
                 setSubtitleIndicatorColor();
             }
         });
@@ -289,6 +319,9 @@ public class CreateNoteActivity extends AppCompatActivity {
                 imageColor3.setImageResource(0);
                 imageColor4.setImageResource(0);
                 imageColor5.setImageResource(R.drawable.ic_round_done);
+                if (todoAdapter != null) {
+                    todoAdapter.notifyDataSetChanged();
+                }
                 setSubtitleIndicatorColor();
             }
         });
@@ -336,6 +369,14 @@ public class CreateNoteActivity extends AppCompatActivity {
             }
         });
 
+        layoutMiscellaneous.findViewById(R.id.layout_add_checklist).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                showAddChecklistItemDialog();
+            }
+        });
+
         if (alreadyAvailableNote != null) {
             layoutMiscellaneous.findViewById(R.id.layout_delete_note).setVisibility(View.VISIBLE);
             layoutMiscellaneous.findViewById(R.id.layout_delete_note).setOnClickListener(new View.OnClickListener() {
@@ -347,6 +388,52 @@ public class CreateNoteActivity extends AppCompatActivity {
             });
         }
     }
+
+    private void showAddChecklistItemDialog() {
+        if (dialogAddChecklistItem == null) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(CreateNoteActivity.this);
+            View root = LayoutInflater.from(this).inflate(
+                    R.layout.layout_add_checklist_item,
+                    (ViewGroup) findViewById(R.id.layout_add_checklist_item_container)
+            );
+            builder.setView(root);
+
+            dialogAddChecklistItem = builder.create();
+            if (dialogAddChecklistItem.getWindow() != null) {
+                dialogAddChecklistItem.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+            }
+
+            final EditText inputTODO = root.findViewById(R.id.input_todo);
+            inputTODO.requestFocus();
+
+            root.findViewById(R.id.text_add_todo).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (inputTODO.getText().toString().trim().isEmpty()) {
+                        Toast.makeText(CreateNoteActivity.this, "Enter item name", Toast.LENGTH_SHORT).show();
+                    } else {
+                        todoList.add(new TODO(false, inputTODO.getText().toString()));
+                        todoAdapter = new TODOAdapter(todoList, CreateNoteActivity.this, "createNote", alreadyAvailableNote);
+                        todoRecyclerView.setHasFixedSize(true);
+                        todoRecyclerView.setLayoutManager(new LinearLayoutManager(CreateNoteActivity.this));
+                        todoRecyclerView.setAdapter(todoAdapter);
+                        todoAdapter.notifyDataSetChanged();
+                        dialogAddChecklistItem.dismiss();
+                        inputTODO.setText("");
+                    }
+                }
+            });
+
+            root.findViewById(R.id.text_cancel).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dialogAddChecklistItem.dismiss();
+                }
+            });
+        }
+        dialogAddChecklistItem.show();
+    }
+
 
     private void showDeleteNoteDialog() {
         if (dialogDeleteNote == null) {

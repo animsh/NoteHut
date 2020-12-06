@@ -21,5 +21,7 @@
     <color name="colorDelete">#FF4842</color>
     <color name="colorSearchBackground">#333333</color>
     <color name="colorBlack">#000000</color>
+    <color name="colorText2">#BDBDBD</color>
+    <color name="colorText3">#969696</color>
 
 </resources>
