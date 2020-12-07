@@ -5,7 +5,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="fontFamily">@font/kumbh_sans</item>
+        <item name="fontFamily">@font/coresans</item>
         <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
     </style>
 

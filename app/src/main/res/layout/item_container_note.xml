@@ -27,7 +27,7 @@
         android:layout_marginEnd="@dimen/_10sdp"
         android:maxLines="2"
         android:textColor="@color/colorTextColor"
-        android:textSize="@dimen/_15ssp"
+        android:textSize="@dimen/_18ssp"
         android:textStyle="bold" />
 
     <TextView

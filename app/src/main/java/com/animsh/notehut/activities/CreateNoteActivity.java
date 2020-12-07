@@ -144,6 +144,13 @@ public class CreateNoteActivity extends AppCompatActivity {
                 } else if (type.equals("URL")) {
                     textWebUrl.setText(getIntent().getStringExtra("URL"));
                     layoutWebURL.setVisibility(View.VISIBLE);
+                } else if (type.equals("TODO")) {
+                    todoList.add(new TODO(false, getIntent().getStringExtra("TODO")));
+                    todoAdapter = new TODOAdapter(todoList, CreateNoteActivity.this, "createNote", alreadyAvailableNote);
+                    todoRecyclerView.setHasFixedSize(true);
+                    todoRecyclerView.setLayoutManager(new LinearLayoutManager(CreateNoteActivity.this));
+                    todoRecyclerView.setAdapter(todoAdapter);
+                    todoAdapter.notifyDataSetChanged();
                 }
             }
         }

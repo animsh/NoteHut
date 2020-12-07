@@ -26,13 +26,16 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.animsh.notehut.R;
 import com.animsh.notehut.adapters.NoteAdapter;
+import com.animsh.notehut.adapters.TODOAdapter;
 import com.animsh.notehut.database.NotesDatabase;
 import com.animsh.notehut.entities.Note;
+import com.animsh.notehut.entities.TODO;
 import com.animsh.notehut.listeners.NoteListeners;
 
 import java.util.ArrayList;
@@ -50,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements NoteListeners {
     private List<Note> noteList;
     private NoteAdapter noteAdapter;
     private int noteClickedPosition = -1;
+    private AlertDialog dialogAddChecklistItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,16 +101,6 @@ public class MainActivity extends AppCompatActivity implements NoteListeners {
             }
         });
 
-        findViewById(R.id.image_add_note).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivityForResult(
-                        new Intent(getApplicationContext(), CreateNoteActivity.class),
-                        REQUEST_CODE_ADD_NOTE
-                );
-            }
-        });
-
         findViewById(R.id.image_add_image).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -128,6 +122,13 @@ public class MainActivity extends AppCompatActivity implements NoteListeners {
             @Override
             public void onClick(View view) {
                 showAddURLDialog();
+            }
+        });
+
+        findViewById(R.id.image_add_checklist).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showAddChecklistItemDialog();
             }
         });
     }
@@ -236,6 +237,51 @@ public class MainActivity extends AppCompatActivity implements NoteListeners {
             }
         }
     }
+
+    private void showAddChecklistItemDialog() {
+        if (dialogAddChecklistItem == null) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+            View root = LayoutInflater.from(this).inflate(
+                    R.layout.layout_add_checklist_item,
+                    (ViewGroup) findViewById(R.id.layout_add_checklist_item_container)
+            );
+            builder.setView(root);
+
+            dialogAddChecklistItem = builder.create();
+            if (dialogAddChecklistItem.getWindow() != null) {
+                dialogAddChecklistItem.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+            }
+
+            final EditText inputTODO = root.findViewById(R.id.input_todo);
+            inputTODO.requestFocus();
+
+            root.findViewById(R.id.text_add_todo).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (inputTODO.getText().toString().trim().isEmpty()) {
+                        Toast.makeText(MainActivity.this, "Enter item name", Toast.LENGTH_SHORT).show();
+                    } else {
+                        dialogAddChecklistItem.dismiss();
+                        Intent intent = new Intent(getApplicationContext(), CreateNoteActivity.class);
+                        intent.putExtra("isFromQuickAction", true);
+                        intent.putExtra("QuickActionType", "TODO");
+                        intent.putExtra("TODO", inputTODO.getText().toString());
+                        startActivityForResult(intent, REQUEST_CODE_ADD_NOTE);
+                        inputTODO.setText("");
+                    }
+                }
+            });
+
+            root.findViewById(R.id.text_cancel).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dialogAddChecklistItem.dismiss();
+                }
+            });
+        }
+        dialogAddChecklistItem.show();
+    }
+
 
     private void showAddURLDialog() {
         if (dialogAddUrl == null) {

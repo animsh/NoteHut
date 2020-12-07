@@ -73,7 +73,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginStart="@dimen/_2sdp"
-        android:layout_marginTop="@dimen/_5sdp"
+        android:layout_marginTop="@dimen/_10sdp"
         android:layout_marginEnd="@dimen/_2sdp"
         android:clipToPadding="false"
         android:paddingStart="0dp"
@@ -101,20 +101,10 @@
         android:padding="@dimen/_15sdp"
         app:layout_constraintBottom_toBottomOf="parent">
 
-
-        <ImageView
-            android:id="@+id/image_add_note"
-            android:layout_width="@dimen/_22sdp"
-            android:layout_height="@dimen/_22sdp"
-            android:contentDescription="@string/add_note_icon"
-            android:src="@drawable/ic_plus_circle"
-            app:tint="@color/colorIcons" />
-
         <ImageView
             android:id="@+id/image_add_image"
             android:layout_width="@dimen/_22sdp"
             android:layout_height="@dimen/_22sdp"
-            android:layout_marginStart="@dimen/_15sdp"
             android:contentDescription="@string/add_image_icon"
             android:src="@drawable/ic_add_photo"
             app:tint="@color/colorIcons" />
