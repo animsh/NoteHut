@@ -1,11 +1,19 @@
 package com.animsh.notehut.adapters;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.GradientDrawable;
+import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Build;
+import android.os.FileUriExposedException;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,28 +21,40 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.FileProvider;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.animsh.notehut.BuildConfig;
 import com.animsh.notehut.R;
+import com.animsh.notehut.database.NotesDatabase;
 import com.animsh.notehut.entities.Note;
+import com.animsh.notehut.entities.TODO;
 import com.animsh.notehut.listeners.NoteListeners;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.makeramen.roundedimageview.RoundedImageView;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import static com.animsh.notehut.activities.MainActivity.noteAdapter;
+
 public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder> {
 
     public static String backgroundColor;
-    public static Note note;
+    private Note note;
     private List<Note> notes;
     private NoteListeners noteListeners;
     private Timer timer;
     private List<Note> notesSources;
     private Context context;
+    private AlertDialog dialogDeleteNote;
 
     public NoteAdapter(List<Note> notes, NoteListeners noteListeners, Context context) {
         this.notes = notes;
@@ -65,7 +85,71 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
                 noteListeners.onNoteClicked(notes.get(position), position);
             }
         });
+
+        holder.layoutNote.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                View bottomDialogLayout = ((FragmentActivity) context).getLayoutInflater().inflate(R.layout.bottom_sheet_layout_note, null);
+                final BottomSheetDialog dialog = new BottomSheetDialog(context, R.style.BottomSheetDialogTheme);
+
+                TextView title, deleteNoteBtn, shareNoteBtn;
+
+                title = bottomDialogLayout.findViewById(R.id.title);
+                deleteNoteBtn = bottomDialogLayout.findViewById(R.id.btn_delete);
+                shareNoteBtn = bottomDialogLayout.findViewById(R.id.btn_share);
+
+                title.setSelected(true);
+                title.setText(notes.get(position).getTitle());
+
+                deleteNoteBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        showDeleteNoteDialog(position);
+                        dialog.dismiss();
+                    }
+                });
+
+                shareNoteBtn.setOnClickListener(new View.OnClickListener() {
+                    @RequiresApi(api = Build.VERSION_CODES.N)
+                    @Override
+                    public void onClick(View view) {
+                        Intent share = new Intent(Intent.ACTION_SEND);
+                        File file = new File(notes.get(position).getImagePath());
+                        StringBuilder tasks = new StringBuilder();
+                        if (notes.get(position).getTodoList() != null) {
+                            List<TODO> list = notes.get(position).getTodoList();
+                            for (int i = 0; i < notes.get(position).getTodoList().size(); i++) {
+                                tasks.append(i + 1).append(". ").append(list.get(i).getTaskName()).append("\n");
+                            }
+                            Log.d("TASKLIST", "onClick: " + tasks);
+                        }
+                        Uri imageUri = FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".provider", file);
+                        share.putExtra(Intent.EXTRA_TEXT, notes.get(position).getTitle() + "\n" + notes.get(position).getSubtitle() + "\n" + notes.get(position).getNoteText() + "\n " + tasks);
+                        share.putExtra(Intent.EXTRA_STREAM, imageUri);
+                        share.setType("image/*");
+                        share.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+
+                        try {
+                            context.startActivity(Intent.createChooser(share, "Share " + title.getText()));
+                        } catch (FileUriExposedException e) {
+                            Log.e("ERROR : ", e.getMessage());
+                        }
+
+                       /* Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
+                        shareIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        shareIntent.putExtra(Intent.EXTRA_TEXT,"Hey please check this application " + "https://play.google.com/store/apps/details?id=" +getPackageName());
+                        shareIntent.setType("image/png");
+                        startActivity(Intent.createChooser(shareIntent,"Share with"));*/
+                        dialog.dismiss();
+                    }
+                });
+                dialog.setContentView(bottomDialogLayout);
+                dialog.show();
+                return true;
+            }
+        });
     }
+
 
     @Override
     public int getItemCount() {
@@ -75,6 +159,54 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
     @Override
     public int getItemViewType(int position) {
         return position;
+    }
+
+    private void showDeleteNoteDialog(int position) {
+        if (dialogDeleteNote == null) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            View view = LayoutInflater.from(context).inflate(
+                    R.layout.layout_delete_note,
+                    (ViewGroup) ((Activity) context).findViewById(R.id.layout_delete_note_container)
+            );
+            builder.setView(view);
+            dialogDeleteNote = builder.create();
+            if (dialogDeleteNote.getWindow() != null) {
+                dialogDeleteNote.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+            }
+            view.findViewById(R.id.text_delete_note).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    class DeleteNoteTask extends AsyncTask<Void, Void, Void> {
+
+                        @Override
+                        protected Void doInBackground(Void... voids) {
+                            NotesDatabase.getDatabase(context).noteDao()
+                                    .deleteNote(notes.get(position));
+                            return null;
+                        }
+
+                        @Override
+                        protected void onPostExecute(Void aVoid) {
+                            super.onPostExecute(aVoid);
+                            notes.remove(position);
+                            noteAdapter.notifyItemRemoved(position);
+                            dialogDeleteNote.dismiss();
+                        }
+                    }
+                    new DeleteNoteTask().execute();
+                }
+            });
+
+            view.findViewById(R.id.text_cancel).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dialogDeleteNote.dismiss();
+                }
+            });
+        }
+
+        dialogDeleteNote.show();
     }
 
     public void searchNotes(final String searchKeyword) {

@@ -26,16 +26,13 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.animsh.notehut.R;
 import com.animsh.notehut.adapters.NoteAdapter;
-import com.animsh.notehut.adapters.TODOAdapter;
 import com.animsh.notehut.database.NotesDatabase;
 import com.animsh.notehut.entities.Note;
-import com.animsh.notehut.entities.TODO;
 import com.animsh.notehut.listeners.NoteListeners;
 
 import java.util.ArrayList;
@@ -48,10 +45,10 @@ public class MainActivity extends AppCompatActivity implements NoteListeners {
     public static final int REQUEST_CODE_SHOW_NOTES = 3;
     public static final int REQUEST_CODE_SELECT_IMAGE = 4;
     public static final int REQUEST_CODE_STORAGE_PERMISSION = 5;
+    public static NoteAdapter noteAdapter;
     public AlertDialog dialogAddUrl;
     private RecyclerView notesRecyclerView;
     private List<Note> noteList;
-    private NoteAdapter noteAdapter;
     private int noteClickedPosition = -1;
     private AlertDialog dialogAddChecklistItem;
 
