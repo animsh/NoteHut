@@ -61,16 +61,21 @@ public class TODOAdapter extends RecyclerView.Adapter<TODOAdapter.TODOViewHolder
         if (className.equals("main")) {
             if (backgroundColor.equals("#FDBE3B") ||
                     backgroundColor.equals("#FF4842") ||
-                    backgroundColor.equals("#4285F4")) {
+                    backgroundColor.equals("#4285F4") ||
+                    backgroundColor.equals("#ECECEC")) {
                 holder.todoCheckBox.setCheckedColor(Color.parseColor("#000000"));
                 holder.todoCheckBox.setUnCheckedColor(Color.parseColor(backgroundColor));
                 holder.todoCheckBox.setTickColor(Color.parseColor("#ffffff"));
                 holder.todoTitle.setTextColor(Color.parseColor("#000000"));
+                holder.todoCheckBox.setFloorColor(Color.parseColor("#000000"));
+                holder.todoCheckBox.setFloorUnCheckedColor(Color.parseColor("#000000"));
                 isColored = true;
             } else {
                 holder.todoCheckBox.setCheckedColor(Color.parseColor("#FDBE3B"));
                 holder.todoCheckBox.setUnCheckedColor(Color.parseColor(backgroundColor));
                 holder.todoCheckBox.setTickColor(Color.parseColor("#000000"));
+                holder.todoCheckBox.setFloorColor(Color.parseColor("#DFDFDF"));
+                holder.todoCheckBox.setFloorUnCheckedColor(Color.parseColor("#DFDFDF"));
                 holder.todoTitle.setTextColor(Color.parseColor("#ffffff"));
                 isColored = false;
             }
@@ -81,6 +86,8 @@ public class TODOAdapter extends RecyclerView.Adapter<TODOAdapter.TODOViewHolder
                 } else {
                     holder.todoCheckBox.setTickColor(Color.parseColor("#000000"));
                 }
+                holder.todoCheckBox.setFloorColor(Color.parseColor("#DFDFDF"));
+                holder.todoCheckBox.setFloorUnCheckedColor(Color.parseColor("#DFDFDF"));
                 holder.todoCheckBox.setCheckedColor(Color.parseColor(selectedNoteColor));
             }
 
@@ -160,29 +167,32 @@ public class TODOAdapter extends RecyclerView.Adapter<TODOAdapter.TODOViewHolder
         holder.layoutTODO.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                View bottomDialogLayout = ((FragmentActivity) context).getLayoutInflater().inflate(R.layout.bottom_sheet_layout, null);
-                final BottomSheetDialog dialog = new BottomSheetDialog(context, R.style.BottomSheetDialogTheme);
+                if (className.equals("createNote")){
+                    View bottomDialogLayout = ((FragmentActivity) context).getLayoutInflater().inflate(R.layout.bottom_sheet_layout, null);
+                    final BottomSheetDialog dialog = new BottomSheetDialog(context, R.style.BottomSheetDialogTheme);
 
-                TextView deleteChecklistItem;
+                    TextView deleteChecklistItem;
 
-                deleteChecklistItem = bottomDialogLayout.findViewById(R.id.text_delete_checklist_item);
+                    deleteChecklistItem = bottomDialogLayout.findViewById(R.id.text_delete_checklist_item);
 
-                deleteChecklistItem.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        if (todoList.size() == 1) {
-                            todoList.remove(0);
-                            todoAdapter.notifyDataSetChanged();
-                        } else {
-                            todoList.remove(position);
-                            todoAdapter.notifyItemRemoved(position);
+                    deleteChecklistItem.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            if (todoList.size() == 1) {
+                                todoList.remove(0);
+                                todoAdapter.notifyDataSetChanged();
+                            } else {
+                                todoList.remove(position);
+                                todoAdapter.notifyItemRemoved(position);
+                            }
+
+                            dialog.dismiss();
                         }
-
-                        dialog.dismiss();
-                    }
-                });
-                dialog.setContentView(bottomDialogLayout);
-                dialog.show();
+                    });
+                    dialog.setContentView(bottomDialogLayout);
+                    dialog.show();
+                    return true;
+                }
                 return true;
             }
         });

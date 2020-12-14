@@ -124,10 +124,16 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
                             Log.d("TASKLIST", "onClick: " + tasks);
                         }
                         Uri imageUri = FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".provider", file);
-                        share.putExtra(Intent.EXTRA_TEXT, notes.get(position).getTitle() + "\n" + notes.get(position).getSubtitle() + "\n" + notes.get(position).getNoteText() + "\n " + tasks);
-                        share.putExtra(Intent.EXTRA_STREAM, imageUri);
-                        share.setType("image/*");
-                        share.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+                        if (!notes.get(position).getImagePath().equals("")) {
+                            share.putExtra(Intent.EXTRA_TEXT, notes.get(position).getTitle() + "\n" + notes.get(position).getSubtitle() + "\n" + notes.get(position).getNoteText() + "\n " + tasks);
+                            share.putExtra(Intent.EXTRA_STREAM, imageUri);
+                            share.setType("image/*");
+                            share.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+                        } else {
+                            share.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+                            share.setType("text/plain");
+                            share.putExtra(Intent.EXTRA_TEXT, notes.get(position).getTitle() + "\n" + notes.get(position).getSubtitle() + "\n" + notes.get(position).getNoteText() + "\n " + tasks);
+                        }
 
                         try {
                             context.startActivity(Intent.createChooser(share, "Share " + title.getText()));
@@ -263,19 +269,19 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
 
         void setNote(Note note, Context context) {
             textTitle.setText(note.getTitle());
-            if (note.getSubtitle().trim().isEmpty()) {
+            if (note.getSubtitle().trim().isEmpty() || note.getSubtitle().trim().equals("")) {
                 textSubtitle.setVisibility(View.GONE);
             } else {
                 textSubtitle.setVisibility(View.VISIBLE);
                 textSubtitle.setText(note.getSubtitle());
             }
-            if (note.getNoteText().trim().isEmpty()) {
+            if (note.getNoteText().trim().isEmpty() || note.getNoteText().trim().equals("")) {
                 textNote.setVisibility(View.GONE);
             } else {
-                if (textSubtitle.getText().toString().isEmpty()) {
+                if (note.getSubtitle().trim().isEmpty() || note.getSubtitle().trim().equals("")) {
                     textNote.setVisibility(View.VISIBLE);
                     textNote.setText(note.getNoteText());
-                } else if (textSubtitle.getText().toString().trim().length() < 30) {
+                } else if (note.getSubtitle().trim().length() < 30) {
                     textNote.setVisibility(View.VISIBLE);
                     textNote.setText(note.getNoteText());
                 } else {
@@ -291,7 +297,8 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
                 GradientDrawable drawable = (GradientDrawable) textLabel.getBackground();
                 if (note.getColor().equals("#FDBE3B") ||
                         note.getColor().equals("#FF4842") ||
-                        note.getColor().equals("#4285F4")) {
+                        note.getColor().equals("#4285F4") ||
+                        note.getColor().equals("#ECECEC")) {
                     textTitle.setTextColor(Color.parseColor("#000000"));
                     textSubtitle.setTextColor(Color.parseColor("#000000"));
                     textNote.setTextColor(Color.parseColor("#000000"));

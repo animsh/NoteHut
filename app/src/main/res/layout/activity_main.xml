@@ -17,8 +17,8 @@
         android:includeFontPadding="false"
         android:text="@string/header_nothut"
         android:textColor="@color/colorTextColor"
-        android:textSize="@dimen/_20ssp"
-        android:textStyle="bold"
+        android:textSize="@dimen/_24ssp"
+        style="@style/MyCustomFontTextAppearance"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -59,14 +59,6 @@
             android:textSize="@dimen/_13ssp" />
     </LinearLayout>
 
-    <View
-        android:id="@+id/supporterView"
-        android:layout_width="match_parent"
-        android:layout_height="15dp"
-        android:background="@drawable/shadow_inverted"
-        app:layout_anchor="@+id/notes_recyclerview"
-        app:layout_anchorGravity="bottom"
-        app:layout_constraintTop_toTopOf="@+id/notes_recyclerview" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/notes_recyclerview"
@@ -81,6 +73,15 @@
         android:paddingBottom="@dimen/_12sdp"
         app:layout_constraintBottom_toTopOf="@id/layout_quick_action"
         app:layout_constraintTop_toBottomOf="@id/search_layout" />
+
+    <View
+        android:id="@+id/supporterView"
+        android:layout_width="match_parent"
+        android:layout_height="15dp"
+        android:background="@drawable/shadow_inverted"
+        app:layout_anchor="@+id/notes_recyclerview"
+        app:layout_anchorGravity="top"
+        app:layout_constraintTop_toTopOf="@+id/notes_recyclerview" />
 
     <View
         android:id="@+id/supporterView2"
@@ -98,32 +99,34 @@
         android:background="@color/colorQuickActionBackground"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:padding="@dimen/_15sdp"
+        android:padding="@dimen/_13sdp"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <ImageView
             android:id="@+id/image_add_image"
-            android:layout_width="@dimen/_22sdp"
-            android:layout_height="@dimen/_22sdp"
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
             android:contentDescription="@string/add_image_icon"
             android:src="@drawable/ic_add_photo"
             app:tint="@color/colorIcons" />
 
         <ImageView
             android:id="@+id/image_add_url"
-            android:layout_width="@dimen/_22sdp"
-            android:layout_height="@dimen/_22sdp"
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
             android:layout_marginStart="@dimen/_15sdp"
             android:contentDescription="@string/add_url_icon"
+            android:padding="@dimen/_2sdp"
             android:src="@drawable/ic_url"
             app:tint="@color/colorIcons" />
 
         <ImageView
             android:id="@+id/image_add_checklist"
-            android:layout_width="@dimen/_22sdp"
-            android:layout_height="@dimen/_22sdp"
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
             android:layout_marginStart="@dimen/_15sdp"
             android:contentDescription="@string/add_url_icon"
+            android:padding="@dimen/_1sdp"
             android:src="@drawable/ic_checklist"
             app:tint="@color/colorIcons" />
     </LinearLayout>

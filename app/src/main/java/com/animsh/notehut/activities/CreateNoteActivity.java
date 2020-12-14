@@ -12,8 +12,11 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.FileUriExposedException;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,13 +29,16 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.animsh.notehut.BuildConfig;
 import com.animsh.notehut.R;
 import com.animsh.notehut.adapters.TODOAdapter;
 import com.animsh.notehut.database.NotesDatabase;
@@ -40,6 +46,7 @@ import com.animsh.notehut.entities.Note;
 import com.animsh.notehut.entities.TODO;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
+import java.io.File;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -390,8 +397,44 @@ public class CreateNoteActivity extends AppCompatActivity {
             }
         });
 
+
         if (alreadyAvailableNote != null) {
             layoutMiscellaneous.findViewById(R.id.layout_delete_note).setVisibility(View.VISIBLE);
+            layoutMiscellaneous.findViewById(R.id.layout_share_note).setVisibility(View.VISIBLE);
+            layoutMiscellaneous.findViewById(R.id.layout_share_note).setOnClickListener(new View.OnClickListener() {
+                @RequiresApi(api = Build.VERSION_CODES.N)
+                @Override
+                public void onClick(View view) {
+                    bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                    Intent share = new Intent(Intent.ACTION_SEND);
+                    File file = new File(alreadyAvailableNote.getImagePath());
+                    StringBuilder tasks = new StringBuilder();
+                    if (alreadyAvailableNote.getTodoList() != null) {
+                        List<TODO> list = alreadyAvailableNote.getTodoList();
+                        for (int i = 0; i < alreadyAvailableNote.getTodoList().size(); i++) {
+                            tasks.append(i + 1).append(". ").append(list.get(i).getTaskName()).append("\n");
+                        }
+                        Log.d("TASKLIST", "onClick: " + tasks);
+                    }
+                    Uri imageUri = FileProvider.getUriForFile(CreateNoteActivity.this, BuildConfig.APPLICATION_ID + ".provider", file);
+                    if (!alreadyAvailableNote.getImagePath().equals("")) {
+                        share.putExtra(Intent.EXTRA_TEXT, alreadyAvailableNote.getTitle() + "\n" + alreadyAvailableNote.getSubtitle() + "\n" + alreadyAvailableNote.getNoteText() + "\n " + tasks);
+                        share.putExtra(Intent.EXTRA_STREAM, imageUri);
+                        share.setType("image/*");
+                        share.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+                    } else {
+                        share.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+                        share.setType("text/plain");
+                        share.putExtra(Intent.EXTRA_TEXT, alreadyAvailableNote.getTitle() + "\n" + alreadyAvailableNote.getSubtitle() + "\n" + alreadyAvailableNote.getNoteText() + "\n " + tasks);
+                    }
+
+                    try {
+                        startActivity(Intent.createChooser(share, "Share Note"));
+                    } catch (FileUriExposedException e) {
+                        Log.e("ERROR : ", e.getMessage());
+                    }
+                }
+            });
             layoutMiscellaneous.findViewById(R.id.layout_delete_note).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
