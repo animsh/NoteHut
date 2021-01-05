@@ -48,12 +48,12 @@ import static com.animsh.notehut.activities.MainActivity.noteAdapter;
 public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder> {
 
     public static String backgroundColor;
+    private final NoteListeners noteListeners;
+    private final List<Note> notesSources;
+    private final Context context;
     private Note note;
     private List<Note> notes;
-    private NoteListeners noteListeners;
     private Timer timer;
-    private List<Note> notesSources;
-    private Context context;
     private AlertDialog dialogDeleteNote;
 
     public NoteAdapter(List<Note> notes, NoteListeners noteListeners, Context context) {

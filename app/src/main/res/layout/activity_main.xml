@@ -9,6 +9,7 @@
 
     <TextView
         android:id="@+id/headerNotHut"
+        style="@style/MyCustomFontTextAppearance"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/_14sdp"
@@ -18,7 +19,6 @@
         android:text="@string/header_nothut"
         android:textColor="@color/colorTextColor"
         android:textSize="@dimen/_24ssp"
-        style="@style/MyCustomFontTextAppearance"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

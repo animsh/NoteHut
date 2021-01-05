@@ -15,8 +15,8 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.animsh.animatedcheckbox.AnimatedCheckBox;
 import com.animsh.notehut.R;
-import com.animsh.notehut.customlayouts.CustomCheckBox;
 import com.animsh.notehut.database.NotesDatabase;
 import com.animsh.notehut.entities.Note;
 import com.animsh.notehut.entities.TODO;
@@ -30,10 +30,10 @@ import static com.animsh.notehut.adapters.NoteAdapter.backgroundColor;
 
 public class TODOAdapter extends RecyclerView.Adapter<TODOAdapter.TODOViewHolder> {
 
-    private List<TODO> todoList;
-    private Context context;
-    private String className;
-    private Note note;
+    private final List<TODO> todoList;
+    private final Context context;
+    private final String className;
+    private final Note note;
 
     public TODOAdapter(List<TODO> todoList, Context context, String className, Note note) {
         this.todoList = todoList;
@@ -122,9 +122,9 @@ public class TODOAdapter extends RecyclerView.Adapter<TODOAdapter.TODOViewHolder
         });
 
         boolean finalIsColored = isColored;
-        holder.todoCheckBox.setOnCheckedChangeListener(new CustomCheckBox.OnCheckedChangeListener() {
+        holder.todoCheckBox.setOnCheckedChangeListener(new AnimatedCheckBox.OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged(CustomCheckBox checkBox, boolean isChecked) {
+            public void onCheckedChanged(AnimatedCheckBox checkBox, boolean isChecked) {
                 if (isChecked) {
                     if (finalIsColored) {
                         holder.todoTitle.setTextColor(context.getResources().getColor(R.color.colorBlack));
@@ -167,7 +167,7 @@ public class TODOAdapter extends RecyclerView.Adapter<TODOAdapter.TODOViewHolder
         holder.layoutTODO.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                if (className.equals("createNote")){
+                if (className.equals("createNote")) {
                     View bottomDialogLayout = ((FragmentActivity) context).getLayoutInflater().inflate(R.layout.bottom_sheet_layout, null);
                     final BottomSheetDialog dialog = new BottomSheetDialog(context, R.style.BottomSheetDialogTheme);
 
@@ -205,7 +205,7 @@ public class TODOAdapter extends RecyclerView.Adapter<TODOAdapter.TODOViewHolder
 
     public class TODOViewHolder extends RecyclerView.ViewHolder {
 
-        CustomCheckBox todoCheckBox;
+        AnimatedCheckBox todoCheckBox;
         TextView todoTitle;
         LinearLayout layoutTODO;
 

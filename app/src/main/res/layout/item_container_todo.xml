@@ -11,16 +11,18 @@
     android:paddingEnd="@dimen/_5sdp"
     android:paddingBottom="@dimen/_5sdp">
 
-    <com.animsh.notehut.customlayouts.CustomCheckBox
+    <com.animsh.animatedcheckbox.AnimatedCheckBox
         android:id="@+id/todo_checkbox"
         android:layout_width="@dimen/_14sdp"
         android:layout_height="@dimen/_14sdp"
         android:text=""
+        app:border_stroke_width="2dp"
         app:color_checked="@color/colorAccent"
         app:color_tick="@color/colorPrimary"
         app:color_unchecked="@color/colorMiscellaneousBackground"
         app:color_unchecked_stroke="@color/colorBlack"
-        app:small_tick="true" />
+        app:small_tick="true"
+        app:tick_stroke_width="2dp" />
 
     <TextView
         android:id="@+id/todo_title"

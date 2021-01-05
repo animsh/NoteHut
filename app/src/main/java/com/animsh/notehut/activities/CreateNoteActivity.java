@@ -60,6 +60,8 @@ public class CreateNoteActivity extends AppCompatActivity {
     private static final int REQUEST_CODE_SELECT_IMAGE = 2;
     public static String selectedNoteColor;
     public static TODOAdapter todoAdapter;
+    LinearLayout layoutMiscellaneous;
+    BottomSheetBehavior<LinearLayout> bottomSheetBehavior;
     private EditText inputNoteTitle, inputNoteSubtitle, inputNoteText;
     private TextView textDate, textTime;
     private View subtitleIndicator;
@@ -78,6 +80,8 @@ public class CreateNoteActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_note);
+        layoutMiscellaneous = findViewById(R.id.layout_miscellaneous);
+        bottomSheetBehavior = BottomSheetBehavior.from(layoutMiscellaneous);
 
         ImageView imageBack = findViewById(R.id.image_back);
         imageBack.setOnClickListener(new View.OnClickListener() {
@@ -86,6 +90,7 @@ public class CreateNoteActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+
 
         inputNoteTitle = findViewById(R.id.input_note_title);
         inputNoteSubtitle = findViewById(R.id.input_note_subtitle);
@@ -248,8 +253,6 @@ public class CreateNoteActivity extends AppCompatActivity {
     }
 
     private void initMiscellaneous() {
-        final LinearLayout layoutMiscellaneous = findViewById(R.id.layout_miscellaneous);
-        final BottomSheetBehavior<LinearLayout> bottomSheetBehavior = BottomSheetBehavior.from(layoutMiscellaneous);
         layoutMiscellaneous.findViewById(R.id.text_miscellaneous).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -641,5 +644,14 @@ public class CreateNoteActivity extends AppCompatActivity {
             });
         }
         dialogAlertURL.show();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
+            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+            return;
+        }
+        super.onBackPressed();
     }
 }
