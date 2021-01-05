@@ -12,14 +12,6 @@
 <p align="center">  
 NoteHut can act as your daily companion or your personal assistant which can assist you in your daily note saving activity. Now never let thoughts go away open Note It and note them!</br>
 
-## Features Integrated
-1. Minimalistic UI
-2. Search Notes
-3. Checklist / TODO List
-4. Miscellaneous Menu - Add Image/URL
-5. Color your notes as you want
-6. Share Notes - And many more
-
 <p align="center">
 <img src="/images/image1.png"/>
 </p>
