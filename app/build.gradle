@@ -61,4 +61,11 @@ dependencies {
     // animated check box
     implementation 'com.github.animsh:AnimatedCheckBox:1.0.0'
 
+    // Material SearchBar
+    implementation 'com.github.animsh:MaterialSearchBar:1.0.0'
+
+    // Lottie Files
+    def lottieVersion = "3.4.0"
+    implementation "com.airbnb.android:lottie:$lottieVersion"
+
 }

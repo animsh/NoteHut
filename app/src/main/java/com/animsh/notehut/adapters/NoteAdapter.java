@@ -51,33 +51,47 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
     private final NoteListeners noteListeners;
     private final List<Note> notesSources;
     private final Context context;
+    private final boolean isGrid;
     private Note note;
     private List<Note> notes;
     private Timer timer;
     private AlertDialog dialogDeleteNote;
 
-    public NoteAdapter(List<Note> notes, NoteListeners noteListeners, Context context) {
+    public NoteAdapter(List<Note> notes, NoteListeners noteListeners, Context context, boolean isGrid) {
         this.notes = notes;
         this.noteListeners = noteListeners;
         notesSources = notes;
         this.context = context;
+        this.isGrid = isGrid;
     }
 
     @NonNull
     @Override
     public NoteViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new NoteViewHolder(
-                LayoutInflater.from(parent.getContext()).inflate(
-                        R.layout.item_container_note,
-                        parent,
-                        false
-                )
-        );
+        NoteViewHolder view;
+        if (isGrid) {
+            view = new NoteViewHolder(
+                    LayoutInflater.from(parent.getContext()).inflate(
+                            R.layout.item_container_note,
+                            parent,
+                            false
+                    )
+            );
+        } else {
+            view = new NoteViewHolder(
+                    LayoutInflater.from(parent.getContext()).inflate(
+                            R.layout.item_container_note_list,
+                            parent,
+                            false
+                    )
+            );
+        }
+        return view;
     }
 
     @Override
     public void onBindViewHolder(@NonNull NoteViewHolder holder, int position) {
-        holder.setNote(notes.get(position), context);
+        holder.setNote(notes.get(position), context, isGrid);
         note = notes.get(position);
         holder.layoutNote.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -140,12 +154,6 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
                         } catch (FileUriExposedException e) {
                             Log.e("ERROR : ", e.getMessage());
                         }
-
-                       /* Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
-                        shareIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        shareIntent.putExtra(Intent.EXTRA_TEXT,"Hey please check this application " + "https://play.google.com/store/apps/details?id=" +getPackageName());
-                        shareIntent.setType("image/png");
-                        startActivity(Intent.createChooser(shareIntent,"Share with"));*/
                         dialog.dismiss();
                     }
                 });
@@ -240,7 +248,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
                     }
                 });
             }
-        }, 500);
+        }, 0);
     }
 
     public void cancelTimer() {
@@ -267,7 +275,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
             textLabel = itemView.findViewById(R.id.text_label);
         }
 
-        void setNote(Note note, Context context) {
+        void setNote(Note note, Context context, boolean isGrid) {
             textTitle.setText(note.getTitle());
             if (note.getSubtitle().trim().isEmpty() || note.getSubtitle().trim().equals("")) {
                 textSubtitle.setVisibility(View.GONE);
@@ -289,33 +297,52 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
                 }
             }
             textDate.setText(note.getDate());
+            GradientDrawable drawable = (GradientDrawable) textLabel.getBackground();
 
             GradientDrawable gradientDrawable = (GradientDrawable) layoutNote.getBackground();
-            if (note.getColor() != null) {
-                backgroundColor = note.getColor();
-                gradientDrawable.setColor(Color.parseColor(note.getColor()));
-                GradientDrawable drawable = (GradientDrawable) textLabel.getBackground();
-                if (note.getColor().equals("#FDBE3B") ||
-                        note.getColor().equals("#FF4842") ||
-                        note.getColor().equals("#4285F4") ||
-                        note.getColor().equals("#ECECEC")) {
-                    textTitle.setTextColor(Color.parseColor("#000000"));
-                    textSubtitle.setTextColor(Color.parseColor("#000000"));
-                    textNote.setTextColor(Color.parseColor("#000000"));
-                    textDate.setTextColor(Color.parseColor("#000000"));
-                    textLabel.setTextColor(context.getResources().getColor(R.color.colorBlack));
-                    drawable.setStroke(1, context.getResources().getColor(R.color.colorBlack)); // set stroke width and stroke color
+            if (isGrid) {
+                if (note.getColor() != null) {
+                    gradientDrawable.setColor(Color.parseColor(note.getColor()));
+                    backgroundColor = note.getColor();
+                    if (note.getColor().equals("#FDBE3B") ||
+                            note.getColor().equals("#FF4842") ||
+                            note.getColor().equals("#4285F4") ||
+                            note.getColor().equals("#ECECEC")) {
+                        textTitle.setTextColor(Color.parseColor("#000000"));
+                        textSubtitle.setTextColor(Color.parseColor("#000000"));
+                        textNote.setTextColor(Color.parseColor("#000000"));
+                        textDate.setTextColor(Color.parseColor("#000000"));
+                        textLabel.setTextColor(context.getResources().getColor(R.color.colorBlack));
+                        drawable.setStroke(1, context.getResources().getColor(R.color.colorBlack)); // set stroke width and stroke color
+                    } else {
+                        textTitle.setTextColor(Color.parseColor("#ffffff"));
+                        textSubtitle.setTextColor(Color.parseColor("#ffffff"));
+                        textNote.setTextColor(Color.parseColor("#969696"));
+                        textDate.setTextColor(Color.parseColor("#969696"));
+                        textLabel.setTextColor(context.getResources().getColor(R.color.colorText3));
+                        drawable.setStroke(1, context.getResources().getColor(R.color.colorText3)); // set stroke width and stroke color
+                    }
                 } else {
-                    textTitle.setTextColor(Color.parseColor("#ffffff"));
-                    textSubtitle.setTextColor(Color.parseColor("#ffffff"));
-                    textNote.setTextColor(Color.parseColor("#969696"));
-                    textDate.setTextColor(Color.parseColor("#969696"));
-                    textLabel.setTextColor(context.getResources().getColor(R.color.colorText3));
-                    drawable.setStroke(1, context.getResources().getColor(R.color.colorText3)); // set stroke width and stroke color
+                    backgroundColor = "#1F1F1F";
+                    gradientDrawable.setColor(Color.parseColor("#1F1F1F"));
                 }
             } else {
-                backgroundColor = "#1F1F1F";
                 gradientDrawable.setColor(Color.parseColor("#1F1F1F"));
+                View view = itemView.findViewById(R.id.view_color);
+                GradientDrawable colorDrawable = (GradientDrawable) view.getBackground();
+                if (!note.getColor().trim().equals("#1F1F1F")) {
+                    backgroundColor = note.getColor();
+                    colorDrawable.setColor(Color.parseColor(note.getColor()));
+                } else {
+                    backgroundColor = "#1F1F1F";
+                    colorDrawable.setColor(Color.parseColor("#2A2A2A"));
+                }
+                textTitle.setTextColor(Color.parseColor("#ffffff"));
+                textSubtitle.setTextColor(Color.parseColor("#ffffff"));
+                textNote.setTextColor(Color.parseColor("#969696"));
+                textDate.setTextColor(Color.parseColor("#969696"));
+                textLabel.setTextColor(context.getResources().getColor(R.color.colorText3));
+                drawable.setStroke(1, context.getResources().getColor(R.color.colorText3)); // set stroke width and stroke color
             }
 
             if (note.getImagePath() != null) {
@@ -325,8 +352,9 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
                 imageNote.setVisibility(View.GONE);
             }
 
+
             if (note.getTodoList() != null) {
-                TODOAdapter todoAdapter = new TODOAdapter(note.getTodoList(), context, "main", note);
+                TODOAdapter todoAdapter = new TODOAdapter(note.getTodoList(), context, "main", note, isGrid);
                 todoRecyclerView.setHasFixedSize(true);
                 todoRecyclerView.setLayoutManager(new LinearLayoutManager(context));
                 todoRecyclerView.setAdapter(todoAdapter);
@@ -335,11 +363,11 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
             }
 
             if (note.getTodoList() != null && !note.getNoteText().equals("")) {
-                textLabel.setText("Notes");
+                textLabel.setText(R.string.notes);
             } else if (note.getTodoList() != null && note.getNoteText().equals("")) {
-                textLabel.setText("Task List");
+                textLabel.setText(R.string.task_list);
             } else if (note.getTodoList() == null && !note.getNoteText().equals("")) {
-                textLabel.setText("Notes");
+                textLabel.setText(R.string.notes);
             }
         }
     }

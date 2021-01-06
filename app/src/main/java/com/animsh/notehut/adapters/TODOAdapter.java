@@ -34,12 +34,14 @@ public class TODOAdapter extends RecyclerView.Adapter<TODOAdapter.TODOViewHolder
     private final Context context;
     private final String className;
     private final Note note;
+    private final boolean isGrid;
 
-    public TODOAdapter(List<TODO> todoList, Context context, String className, Note note) {
+    public TODOAdapter(List<TODO> todoList, Context context, String className, Note note, boolean isGrid) {
         this.todoList = todoList;
         this.context = context;
         this.className = className;
         this.note = note;
+        this.isGrid = isGrid;
     }
 
     @NonNull
@@ -59,25 +61,49 @@ public class TODOAdapter extends RecyclerView.Adapter<TODOAdapter.TODOViewHolder
         holder.todoTitle.setText(todoList.get(position).getTaskName());
         boolean isColored = false;
         if (className.equals("main")) {
-            if (backgroundColor.equals("#FDBE3B") ||
-                    backgroundColor.equals("#FF4842") ||
-                    backgroundColor.equals("#4285F4") ||
-                    backgroundColor.equals("#ECECEC")) {
-                holder.todoCheckBox.setCheckedColor(Color.parseColor("#000000"));
-                holder.todoCheckBox.setUnCheckedColor(Color.parseColor(backgroundColor));
-                holder.todoCheckBox.setTickColor(Color.parseColor("#ffffff"));
-                holder.todoTitle.setTextColor(Color.parseColor("#000000"));
-                holder.todoCheckBox.setFloorColor(Color.parseColor("#000000"));
-                holder.todoCheckBox.setFloorUnCheckedColor(Color.parseColor("#000000"));
-                isColored = true;
+            if (isGrid) {
+                if (backgroundColor.equals("#FDBE3B") ||
+                        backgroundColor.equals("#FF4842") ||
+                        backgroundColor.equals("#4285F4") ||
+                        backgroundColor.equals("#ECECEC")) {
+                    holder.todoCheckBox.setCheckedColor(Color.parseColor("#000000"));
+                    holder.todoCheckBox.setUnCheckedColor(Color.parseColor(backgroundColor));
+                    holder.todoCheckBox.setTickColor(Color.parseColor("#ffffff"));
+                    holder.todoTitle.setTextColor(Color.parseColor("#000000"));
+                    holder.todoCheckBox.setFloorColor(Color.parseColor("#000000"));
+                    holder.todoCheckBox.setFloorUnCheckedColor(Color.parseColor("#000000"));
+                    isColored = true;
+                } else {
+                    holder.todoCheckBox.setCheckedColor(Color.parseColor("#FDBE3B"));
+                    holder.todoCheckBox.setUnCheckedColor(Color.parseColor(backgroundColor));
+                    holder.todoCheckBox.setTickColor(Color.parseColor("#000000"));
+                    holder.todoCheckBox.setFloorColor(Color.parseColor("#DFDFDF"));
+                    holder.todoCheckBox.setFloorUnCheckedColor(Color.parseColor("#DFDFDF"));
+                    holder.todoTitle.setTextColor(Color.parseColor("#ffffff"));
+                    isColored = false;
+                }
             } else {
-                holder.todoCheckBox.setCheckedColor(Color.parseColor("#FDBE3B"));
-                holder.todoCheckBox.setUnCheckedColor(Color.parseColor(backgroundColor));
-                holder.todoCheckBox.setTickColor(Color.parseColor("#000000"));
-                holder.todoCheckBox.setFloorColor(Color.parseColor("#DFDFDF"));
-                holder.todoCheckBox.setFloorUnCheckedColor(Color.parseColor("#DFDFDF"));
-                holder.todoTitle.setTextColor(Color.parseColor("#ffffff"));
-                isColored = false;
+                if (backgroundColor.equals("#FDBE3B") ||
+                        backgroundColor.equals("#FF4842") ||
+                        backgroundColor.equals("#4285F4") ||
+                        backgroundColor.equals("#ECECEC")) {
+                    holder.todoCheckBox.setCheckedColor(Color.parseColor(backgroundColor));
+                    holder.todoCheckBox.setUnCheckedColor(Color.parseColor("#2A2A2A"));
+                    holder.todoCheckBox.setTickColor(Color.parseColor("#000000"));
+                    holder.todoTitle.setTextColor(Color.parseColor("#FFFFFF"));
+                    holder.todoCheckBox.setFloorColor(Color.parseColor("#969696"));
+                    holder.todoCheckBox.setFloorUnCheckedColor(Color.parseColor("#969696"));
+                    isColored = true;
+                } else {
+                    holder.todoCheckBox.setCheckedColor(Color.parseColor("#FDBE3B"));
+                    holder.todoCheckBox.setUnCheckedColor(Color.parseColor(backgroundColor));
+                    holder.todoCheckBox.setTickColor(Color.parseColor("#000000"));
+                    holder.todoCheckBox.setFloorColor(Color.parseColor("#DFDFDF"));
+                    holder.todoCheckBox.setFloorUnCheckedColor(Color.parseColor("#DFDFDF"));
+                    holder.todoTitle.setTextColor(Color.parseColor("#ffffff"));
+                    isColored = false;
+                }
+
             }
         } else if (className.equals("createNote")) {
             if (selectedNoteColor != null) {
@@ -94,20 +120,31 @@ public class TODOAdapter extends RecyclerView.Adapter<TODOAdapter.TODOViewHolder
         }
 
         holder.todoCheckBox.setChecked(todoList.get(position).isChecked());
-        if (holder.todoCheckBox.isChecked()) {
-            if (isColored) {
-                holder.todoTitle.setTextColor(context.getResources().getColor(R.color.colorBlack));
+        if (isGrid) {
+            if (holder.todoCheckBox.isChecked()) {
+                if (isColored) {
+                    holder.todoTitle.setTextColor(context.getResources().getColor(R.color.colorBlack));
+                } else {
+                    holder.todoTitle.setTextColor(context.getResources().getColor(R.color.colorText2));
+                }
+                holder.todoTitle.setPaintFlags(holder.todoTitle.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
             } else {
-                holder.todoTitle.setTextColor(context.getResources().getColor(R.color.colorText2));
+                if (isColored) {
+                    holder.todoTitle.setTextColor(context.getResources().getColor(R.color.colorBlack));
+                } else {
+                    holder.todoTitle.setTextColor(context.getResources().getColor(R.color.colorTextColor));
+                }
+                holder.todoTitle.setPaintFlags(holder.todoTitle.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
             }
-            holder.todoTitle.setPaintFlags(holder.todoTitle.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         } else {
-            if (isColored) {
-                holder.todoTitle.setTextColor(context.getResources().getColor(R.color.colorBlack));
+            if (holder.todoCheckBox.isChecked()) {
+                holder.todoTitle.setTextColor(context.getResources().getColor(R.color.colorText2));
+                holder.todoTitle.setPaintFlags(holder.todoTitle.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
             } else {
                 holder.todoTitle.setTextColor(context.getResources().getColor(R.color.colorTextColor));
+                holder.todoTitle.setPaintFlags(holder.todoTitle.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
             }
-            holder.todoTitle.setPaintFlags(holder.todoTitle.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
+
         }
 
         holder.layoutTODO.setOnClickListener(new View.OnClickListener() {
@@ -126,16 +163,24 @@ public class TODOAdapter extends RecyclerView.Adapter<TODOAdapter.TODOViewHolder
             @Override
             public void onCheckedChanged(AnimatedCheckBox checkBox, boolean isChecked) {
                 if (isChecked) {
-                    if (finalIsColored) {
-                        holder.todoTitle.setTextColor(context.getResources().getColor(R.color.colorBlack));
+                    if (isGrid) {
+                        if (finalIsColored) {
+                            holder.todoTitle.setTextColor(context.getResources().getColor(R.color.colorBlack));
+                        } else {
+                            holder.todoTitle.setTextColor(context.getResources().getColor(R.color.colorText2));
+                        }
                     } else {
                         holder.todoTitle.setTextColor(context.getResources().getColor(R.color.colorText2));
                     }
                     holder.todoTitle.setPaintFlags(holder.todoTitle.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
                     todoList.get(position).setChecked(true);
                 } else {
-                    if (finalIsColored) {
-                        holder.todoTitle.setTextColor(context.getResources().getColor(R.color.colorBlack));
+                    if (isGrid) {
+                        if (finalIsColored) {
+                            holder.todoTitle.setTextColor(context.getResources().getColor(R.color.colorBlack));
+                        } else {
+                            holder.todoTitle.setTextColor(context.getResources().getColor(R.color.colorTextColor));
+                        }
                     } else {
                         holder.todoTitle.setTextColor(context.getResources().getColor(R.color.colorTextColor));
                     }

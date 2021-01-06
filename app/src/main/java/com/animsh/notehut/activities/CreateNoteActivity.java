@@ -158,7 +158,7 @@ public class CreateNoteActivity extends AppCompatActivity {
                     layoutWebURL.setVisibility(View.VISIBLE);
                 } else if (type.equals("TODO")) {
                     todoList.add(new TODO(false, getIntent().getStringExtra("TODO")));
-                    todoAdapter = new TODOAdapter(todoList, CreateNoteActivity.this, "createNote", alreadyAvailableNote);
+                    todoAdapter = new TODOAdapter(todoList, CreateNoteActivity.this, "createNote", alreadyAvailableNote, true);
                     todoRecyclerView.setHasFixedSize(true);
                     todoRecyclerView.setLayoutManager(new LinearLayoutManager(CreateNoteActivity.this));
                     todoRecyclerView.setAdapter(todoAdapter);
@@ -191,7 +191,7 @@ public class CreateNoteActivity extends AppCompatActivity {
 
         if (alreadyAvailableNote.getTodoList() != null) {
             todoList = alreadyAvailableNote.getTodoList();
-            todoAdapter = new TODOAdapter(todoList, CreateNoteActivity.this, "createNote", alreadyAvailableNote);
+            todoAdapter = new TODOAdapter(todoList, CreateNoteActivity.this, "createNote", alreadyAvailableNote, true);
             todoRecyclerView.setHasFixedSize(true);
             todoRecyclerView.setLayoutManager(new LinearLayoutManager(this));
             todoRecyclerView.setAdapter(todoAdapter);
@@ -472,7 +472,7 @@ public class CreateNoteActivity extends AppCompatActivity {
                         Toast.makeText(CreateNoteActivity.this, "Enter item name", Toast.LENGTH_SHORT).show();
                     } else {
                         todoList.add(new TODO(false, inputTODO.getText().toString()));
-                        todoAdapter = new TODOAdapter(todoList, CreateNoteActivity.this, "createNote", alreadyAvailableNote);
+                        todoAdapter = new TODOAdapter(todoList, CreateNoteActivity.this, "createNote", alreadyAvailableNote, true);
                         todoRecyclerView.setHasFixedSize(true);
                         todoRecyclerView.setLayoutManager(new LinearLayoutManager(CreateNoteActivity.this));
                         todoRecyclerView.setAdapter(todoAdapter);

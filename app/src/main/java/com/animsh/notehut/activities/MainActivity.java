@@ -1,7 +1,9 @@
 package com.animsh.notehut.activities;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.drawable.ColorDrawable;
@@ -26,9 +28,12 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
+import com.airbnb.lottie.LottieAnimationView;
+import com.animsh.materialsearchbar.MaterialSearchBar;
 import com.animsh.notehut.R;
 import com.animsh.notehut.adapters.NoteAdapter;
 import com.animsh.notehut.database.NotesDatabase;
@@ -45,17 +50,26 @@ public class MainActivity extends AppCompatActivity implements NoteListeners {
     public static final int REQUEST_CODE_SHOW_NOTES = 3;
     public static final int REQUEST_CODE_SELECT_IMAGE = 4;
     public static final int REQUEST_CODE_STORAGE_PERMISSION = 5;
+    private static final String TAG = "MAIN_ACTIVITY";
+    private static final String MYPREFERENCE = "MY_PREF";
     public static NoteAdapter noteAdapter;
     public AlertDialog dialogAddUrl;
     private RecyclerView notesRecyclerView;
     private List<Note> noteList;
     private int noteClickedPosition = -1;
     private AlertDialog dialogAddChecklistItem;
+    private MaterialSearchBar materialSearchBar;
+    private LottieAnimationView listGrid;
+    private boolean isGrid = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        materialSearchBar = findViewById(R.id.searchBar);
+        listGrid = findViewById(R.id.animationView);
+        materialSearchBar.getPlaceHolderView().setTextAppearance(this, R.style.MyCustomFontTextAppearance);
 
         ImageView imageAddNoteMain = findViewById(R.id.image_add_note_main);
         imageAddNoteMain.setOnClickListener(new View.OnClickListener() {
@@ -69,17 +83,55 @@ public class MainActivity extends AppCompatActivity implements NoteListeners {
         });
 
         notesRecyclerView = findViewById(R.id.notes_recyclerview);
-        notesRecyclerView.setLayoutManager(
-                new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-        );
-
+        isGrid = restorePref();
+        listGrid.setMinAndMaxFrame(75, 150);
+        if (isGrid) {
+            listGrid.setSpeed(-5);
+            listGrid.playAnimation();
+            notesRecyclerView.setLayoutManager(
+                    new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+            );
+        } else {
+            listGrid.setSpeed(5);
+            listGrid.playAnimation();
+            notesRecyclerView.setLayoutManager(
+                    new LinearLayoutManager(this)
+            );
+        }
+        notesRecyclerView.setNestedScrollingEnabled(true);
         noteList = new ArrayList<>();
-        noteAdapter = new NoteAdapter(noteList, this, this);
+        noteAdapter = new NoteAdapter(noteList, this, this, isGrid);
         notesRecyclerView.setAdapter(noteAdapter);
-        getNotes(REQUEST_CODE_SHOW_NOTES, false);
+        noteAdapter.notifyDataSetChanged();
 
-        EditText inputSearch = findViewById(R.id.input_search);
-        inputSearch.addTextChangedListener(new TextWatcher() {
+        getNotes(REQUEST_CODE_SHOW_NOTES, false);
+        Log.d(TAG, "onCreate: " + listGrid.getMaxFrame());
+        listGrid.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (isGrid) {
+                    isGrid = false;
+                    listGrid.setSpeed(5);
+                    listGrid.playAnimation();
+                    notesRecyclerView.setLayoutManager(
+                            new LinearLayoutManager(MainActivity.this)
+                    );
+                } else {
+                    isGrid = true;
+                    listGrid.setSpeed(-5);
+                    listGrid.playAnimation();
+                    notesRecyclerView.setLayoutManager(
+                            new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+                    );
+                }
+                noteAdapter = new NoteAdapter(noteList, MainActivity.this, MainActivity.this, isGrid);
+                savePref(isGrid);
+                notesRecyclerView.setAdapter(noteAdapter);
+                noteAdapter.notifyDataSetChanged();
+            }
+        });
+
+        materialSearchBar.addTextChangeListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -323,6 +375,18 @@ public class MainActivity extends AppCompatActivity implements NoteListeners {
             });
         }
         dialogAddUrl.show();
+    }
+
+    public void savePref(boolean isGrid) {
+        SharedPreferences sharedpreferences = getSharedPreferences(MYPREFERENCE, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedpreferences.edit();
+        editor.putBoolean("isGrid", isGrid);
+        editor.apply();
+    }
+
+    public boolean restorePref() {
+        SharedPreferences sharedpreferences = getSharedPreferences(MYPREFERENCE, Context.MODE_PRIVATE);
+        return sharedpreferences.getBoolean("isGrid", true);
     }
 
 }

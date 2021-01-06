@@ -7,72 +7,51 @@
     android:background="@color/colorPrimaryDark"
     tools:context=".activities.MainActivity">
 
-    <TextView
-        android:id="@+id/headerNotHut"
-        style="@style/MyCustomFontTextAppearance"
+    <LinearLayout
+        android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/_14sdp"
-        android:layout_marginTop="@dimen/_20sdp"
-        android:layout_marginEnd="@dimen/_12sdp"
-        android:includeFontPadding="false"
-        android:text="@string/header_nothut"
-        android:textColor="@color/colorTextColor"
-        android:textSize="@dimen/_24ssp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginEnd="@dimen/_8sdp"
+        android:gravity="center"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <LinearLayout
-        android:id="@+id/search_layout"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/_35sdp"
-        android:layout_marginStart="@dimen/_12sdp"
-        android:layout_marginTop="@dimen/_15sdp"
-        android:layout_marginEnd="@dimen/_12sdp"
-        android:background="@drawable/background_search"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingStart="@dimen/_10sdp"
-        android:paddingEnd="@dimen/_10sdp"
-        app:layout_constraintTop_toBottomOf="@+id/headerNotHut">
+        <com.animsh.materialsearchbar.MaterialSearchBar
+            android:id="@+id/searchBar"
+            style="@style/MyCustomTheme"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:mt_backIconDrawable="@drawable/ic_arrow_back"
+            app:mt_clearIconDrawable="@drawable/ic_close"
+            app:mt_hint="search notes"
+            app:mt_placeholder="NoteHut"
+            app:mt_searchIconDrawable="@drawable/ic_search"
+            app:mt_textCursorTint="@color/colorTextColor" />
 
-        <ImageView
-            android:layout_width="@dimen/_18sdp"
-            android:layout_height="@dimen/_18sdp"
-            android:contentDescription="@string/search_icon"
-            android:src="@drawable/ic_search"
-            app:tint="@color/colorSearchIcon" />
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/animationView"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            app:lottie_rawRes="@raw/list_grid" />
 
-        <EditText
-            android:id="@+id/input_search"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_32sdp"
-            android:layout_marginStart="@dimen/_12sdp"
-            android:background="@null"
-            android:hint="@string/txt_search_your_notes"
-            android:imeOptions="actionDone"
-            android:importantForAutofill="no"
-            android:inputType="text"
-            android:textColor="@color/colorTextColor"
-            android:textColorHint="@color/colorTextHint"
-            android:textSize="@dimen/_13ssp" />
     </LinearLayout>
-
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/notes_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginStart="@dimen/_2sdp"
-        android:layout_marginTop="@dimen/_10sdp"
         android:layout_marginEnd="@dimen/_2sdp"
         android:clipToPadding="false"
         android:paddingStart="0dp"
         android:paddingEnd="@dimen/_12sdp"
         android:paddingBottom="@dimen/_12sdp"
         app:layout_constraintBottom_toTopOf="@id/layout_quick_action"
-        app:layout_constraintTop_toBottomOf="@id/search_layout" />
+        app:layout_constraintTop_toBottomOf="@id/header" />
 
     <View
         android:id="@+id/supporterView"

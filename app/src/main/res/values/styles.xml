@@ -12,6 +12,7 @@
     <style name="MyCustomFontTextAppearance" parent="TextAppearance.AppCompat.Body1">
         <item name="fontFamily">@font/boubaround_bold</item>
         <item name="android:fontFamily">@font/boubaround_bold</item>
+        <item name="android:textSize">30sp</item>
     </style>
 
     <style name="BottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
@@ -22,6 +23,21 @@
         <item name="android:background">@android:color/transparent</item>
         <item name="behavior_peekHeight">350dp</item>
         <item name="android:layout_margin">1dp</item>
+    </style>
+
+    <style name="MyCustomTheme" parent="MaterialSearchBarLight">
+        <item name="mt_searchBarColor">@color/colorPrimaryDark</item>
+        <item name="mt_dividerColor">@color/searchBarDividerColor</item>
+        <item name="mt_navIconTint">@color/searchBarNavIconTintColor</item>
+        <item name="mt_searchIconTint">@color/colorTextColor</item>
+        <item name="mt_clearIconTint">@color/colorAccent</item>
+        <item name="mt_menuIconTint">@color/searchBarMenuIconTintColor</item>
+        <item name="mt_backIconTint">@color/colorAccent</item>
+        <item name="mt_textCursorTint">@color/colorAccent</item>
+        <item name="mt_textColor">@color/colorAccent</item>
+        <item name="mt_hintColor">@color/colorTextHint</item>
+        <item name="mt_placeholderColor">@color/colorAccent</item>
+        <item name="mt_highlightedTextColor">@color/colorAccent</item>
     </style>
 
 </resources>
