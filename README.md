@@ -13,7 +13,7 @@
 NoteHut can act as your daily companion or your personal assistant which can assist you in your daily note saving activity. Now never let thoughts go away open Note It and note them!</br>
 
 <p align="center">
-<img src="/images/image1.png"/>
+<img src="/images/preview_2.png"/>
 </p>
 
 ## Download
