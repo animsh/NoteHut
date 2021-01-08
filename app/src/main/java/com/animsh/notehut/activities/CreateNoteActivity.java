@@ -283,9 +283,12 @@ public class CreateNoteActivity extends AppCompatActivity {
                 imageColor4.setImageResource(0);
                 imageColor5.setImageResource(0);
                 if (todoAdapter != null) {
+                    todoAdapter = new TODOAdapter(todoList, CreateNoteActivity.this, "createNote", alreadyAvailableNote, true);
+                    todoRecyclerView.setAdapter(todoAdapter);
                     todoAdapter.notifyDataSetChanged();
                 }
                 setSubtitleIndicatorColor();
+                bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
             }
         });
 
@@ -299,9 +302,12 @@ public class CreateNoteActivity extends AppCompatActivity {
                 imageColor4.setImageResource(0);
                 imageColor5.setImageResource(0);
                 if (todoAdapter != null) {
+                    todoAdapter = new TODOAdapter(todoList, CreateNoteActivity.this, "createNote", alreadyAvailableNote, true);
+                    todoRecyclerView.setAdapter(todoAdapter);
                     todoAdapter.notifyDataSetChanged();
                 }
                 setSubtitleIndicatorColor();
+                bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
             }
         });
 
@@ -315,9 +321,12 @@ public class CreateNoteActivity extends AppCompatActivity {
                 imageColor4.setImageResource(0);
                 imageColor5.setImageResource(0);
                 if (todoAdapter != null) {
+                    todoAdapter = new TODOAdapter(todoList, CreateNoteActivity.this, "createNote", alreadyAvailableNote, true);
+                    todoRecyclerView.setAdapter(todoAdapter);
                     todoAdapter.notifyDataSetChanged();
                 }
                 setSubtitleIndicatorColor();
+                bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
             }
         });
 
@@ -331,9 +340,12 @@ public class CreateNoteActivity extends AppCompatActivity {
                 imageColor4.setImageResource(R.drawable.ic_round_done);
                 imageColor5.setImageResource(0);
                 if (todoAdapter != null) {
+                    todoAdapter = new TODOAdapter(todoList, CreateNoteActivity.this, "createNote", alreadyAvailableNote, true);
+                    todoRecyclerView.setAdapter(todoAdapter);
                     todoAdapter.notifyDataSetChanged();
                 }
                 setSubtitleIndicatorColor();
+                bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
             }
         });
 
@@ -347,9 +359,12 @@ public class CreateNoteActivity extends AppCompatActivity {
                 imageColor4.setImageResource(0);
                 imageColor5.setImageResource(R.drawable.ic_round_done);
                 if (todoAdapter != null) {
+                    todoAdapter = new TODOAdapter(todoList, CreateNoteActivity.this, "createNote", alreadyAvailableNote, true);
+                    todoRecyclerView.setAdapter(todoAdapter);
                     todoAdapter.notifyDataSetChanged();
                 }
                 setSubtitleIndicatorColor();
+                bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
             }
         });
 
