@@ -58,6 +58,7 @@ public class CreateNoteActivity extends AppCompatActivity {
 
     private static final int REQUEST_CODE_STORAGE_PERMISSION = 1;
     private static final int REQUEST_CODE_SELECT_IMAGE = 2;
+    private static final String TAG = "CREATE_NOTE";
     public static String selectedNoteColor;
     public static TODOAdapter todoAdapter;
     LinearLayout layoutMiscellaneous;
@@ -72,9 +73,11 @@ public class CreateNoteActivity extends AppCompatActivity {
     private AlertDialog dialogAlertURL;
     private AlertDialog dialogDeleteNote;
     private AlertDialog dialogAddChecklistItem;
+    private AlertDialog dialogDiscardChanges;
     private RecyclerView todoRecyclerView;
     private Note alreadyAvailableNote;
     private List<TODO> todoList = new ArrayList<>();
+    private boolean isViewOrUpdate = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,6 +126,7 @@ public class CreateNoteActivity extends AppCompatActivity {
         selectedImagePath = "";
 
         if (getIntent().getBooleanExtra("isViewOrUpdate", false)) {
+            isViewOrUpdate = true;
             alreadyAvailableNote = (Note) getIntent().getSerializableExtra("note");
             setViewOrUpdateNote();
         }
@@ -448,6 +452,41 @@ public class CreateNoteActivity extends AppCompatActivity {
         }
     }
 
+    private void showDiscardChangesDialog() {
+        if (dialogDiscardChanges == null) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(CreateNoteActivity.this);
+            View root = LayoutInflater.from(this).inflate(
+                    R.layout.layout_discard_changes,
+                    (ViewGroup) findViewById(R.id.layout_discard_changes)
+            );
+            builder.setView(root);
+
+            dialogDiscardChanges = builder.create();
+            if (dialogDiscardChanges.getWindow() != null) {
+                dialogDiscardChanges.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+            }
+
+            root.findViewById(R.id.text_save).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    saveNote();
+                    dialogDiscardChanges.dismiss();
+                }
+            });
+
+            root.findViewById(R.id.text_cancel).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dialogDiscardChanges.dismiss();
+                    finish();
+                }
+            });
+
+        }
+        dialogDiscardChanges.show();
+    }
+
+
     private void showAddChecklistItemDialog() {
         if (dialogAddChecklistItem == null) {
             AlertDialog.Builder builder = new AlertDialog.Builder(CreateNoteActivity.this);
@@ -650,6 +689,49 @@ public class CreateNoteActivity extends AppCompatActivity {
     public void onBackPressed() {
         if (bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
             bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+            return;
+        }
+
+        if (isViewOrUpdate) {
+            if (alreadyAvailableNote != null) {
+                if (alreadyAvailableNote.getTitle().trim().equals(inputNoteTitle.getText().toString().trim())) {
+                    if (alreadyAvailableNote.getSubtitle().trim().equals(inputNoteSubtitle.getText().toString().trim())) {
+                        if (alreadyAvailableNote.getNoteText().trim().equals(inputNoteText.getText().toString().trim())) {
+                            if (alreadyAvailableNote.getColor().trim().equals(selectedNoteColor)) {
+                                if (alreadyAvailableNote.getImagePath().trim().equals(selectedImagePath.trim())) {
+                                    if (layoutWebURL.getVisibility() == View.VISIBLE) {
+                                        if (alreadyAvailableNote.getWebLink() == null && !textWebUrl.getText().toString().isEmpty()) {
+                                            showDiscardChangesDialog();
+                                        } else if (alreadyAvailableNote.getWebLink() != null && alreadyAvailableNote.getWebLink().trim().equals(textWebUrl.getText().toString())) {
+                                            finish();
+                                            return;
+                                        } else {
+                                            showDiscardChangesDialog();
+                                        }
+                                    } else {
+                                        if (alreadyAvailableNote.getWebLink() != null && !alreadyAvailableNote.getWebLink().isEmpty()) {
+                                            showDiscardChangesDialog();
+                                        } else {
+                                            finish();
+                                            return;
+                                        }
+                                    }
+                                } else {
+                                    showDiscardChangesDialog();
+                                }
+                            } else {
+                                showDiscardChangesDialog();
+                            }
+                        } else {
+                            showDiscardChangesDialog();
+                        }
+                    } else {
+                        showDiscardChangesDialog();
+                    }
+                } else {
+                    showDiscardChangesDialog();
+                }
+            }
             return;
         }
         super.onBackPressed();
